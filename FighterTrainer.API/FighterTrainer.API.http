@@ -1,0 +1,6 @@
+@FighterTrainer.API_HostAddress = http://localhost:5150
+
+GET {{FighterTrainer.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
