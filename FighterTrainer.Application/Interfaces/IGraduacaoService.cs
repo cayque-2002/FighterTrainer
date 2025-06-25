@@ -1,0 +1,9 @@
+﻿using FighterTrainer.Domain.Entities;
+
+namespace FighterTrainer.Application.Interfaces;
+
+public interface IGraduacaoService
+{
+    Task<List<GraduacaoDto>> ListarTodasAsync();
+    Task<GraduacaoDto> CriarAsync(GraduacaoDto dto);
+}

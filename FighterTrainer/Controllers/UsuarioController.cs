@@ -1,4 +1,5 @@
-﻿using FighterTrainer.Application.Services;
+﻿using FighterTrainer.Application.Interfaces;
+using FighterTrainer.Application.Services;
 using FighterTrainer.Infrastructure.Context;
 using Infrastructure.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -15,12 +16,14 @@ public class UsuarioController : ControllerBase
     private readonly AppDbContext _context;
     private readonly TokenService _tokenService;
     private readonly UsuarioService _usuarioService;
+    private readonly IUsuarioService _iusuarioService;
 
-    public UsuarioController(AppDbContext context, TokenService tokenService, UsuarioService usuarioService)
+    public UsuarioController(AppDbContext context, TokenService tokenService, UsuarioService usuarioService, IUsuarioService iusuarioService)
     {
         _context = context;
         _tokenService = tokenService;
         _usuarioService = usuarioService;
+        _iusuarioService = iusuarioService;
     }
 
 
@@ -37,6 +40,14 @@ public class UsuarioController : ControllerBase
             return BadRequest(new { erro = ex.Message });
         }
     }
+
+    [HttpGet]
+    public async Task<IActionResult> Get()
+    {
+        var usuarios = await _iusuarioService.ListarTodosAsync();
+        return Ok(usuarios);
+    }
+
 
 
 }

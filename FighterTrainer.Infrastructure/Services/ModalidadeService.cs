@@ -1,0 +1,29 @@
+﻿using FighterTrainer.Application.Interfaces;
+using FighterTrainer.Domain.Entities;
+using Microsoft.EntityFrameworkCore;
+using FighterTrainer.Infrastructure.Context;
+using System;
+
+namespace FighterTrainer.Application.Services;
+
+public class ModalidadeRepository : IModalidadeRepository
+{
+    private readonly AppDbContext _context;
+
+    public ModalidadeRepository(AppDbContext context)
+    {
+        _context = context;
+    }
+
+    public async Task<List<Modalidade>> GetAllAsync()
+    {
+        return await _context.Modalidade.ToListAsync();
+    }
+
+    public async Task AddAsync(Modalidade modalidade)
+    {
+        _context.Modalidade.Add(modalidade);
+        await _context.SaveChangesAsync();
+    }
+}
+

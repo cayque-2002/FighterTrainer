@@ -76,9 +76,19 @@ namespace FighterTrainer.Application.Services
                 }
 
             }
-
-
             
+        }
+
+        public async Task<List<UsuarioDto>> ListarTodosAsync()
+        {
+            var usuarios = await _usuarioRepository.ListarTodosAsync();
+            return usuarios.Select(u => new UsuarioDto
+            {
+                Id = u.Id,
+                Nome = u.Nome,
+                Email = u.Email,
+                Tipo = u.TipoUsuario
+            }).ToList();
         }
 
 

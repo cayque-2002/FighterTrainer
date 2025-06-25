@@ -11,6 +11,7 @@ namespace FighterTrainer.Domain.Interfaces
     {
         Task<Usuario?> ObterPorEmailAsync(string email);
         Task<Usuario?> ObterPorIdAsync(long id);
+        Task<List<Usuario>> ListarTodosAsync();
         Task AdicionarAsync(Usuario usuario);
         Task<bool> EmailJaCadastradoAsync(string email);
         // outros métodos que precisar

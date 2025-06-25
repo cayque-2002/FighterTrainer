@@ -2,7 +2,6 @@
 
 public interface IModalidadeRepository
 {
-    Task<IEnumerable<Modalidade>> GetAllAsync();
-    Task<Modalidade?> GetByIdAsync(long id);
+    Task<List<Modalidade>> GetAllAsync();
     Task AddAsync(Modalidade modalidade);
 }

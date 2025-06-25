@@ -1,7 +1,7 @@
 ﻿using FighterTrainer.Application.Interfaces;
 using FighterTrainer.Domain.Entities;
-using FighterTrainer.Infrastructure.Context;
 using Microsoft.EntityFrameworkCore;
+using FighterTrainer.Infrastructure.Context;
 using System;
 
 namespace FighterTrainer.Application.Services;
@@ -23,13 +23,13 @@ public class UsuarioModalidadeService : IUsuarioModalidadeService
             Ativo = dto.Ativo
         };
 
-        _context.UsuarioModalidades.Add(entidade);
+        _context.UsuarioModalidade.Add(entidade);
         await _context.SaveChangesAsync();
     }
 
     public async Task<IEnumerable<UsuarioModalidade>> ListarPorUsuario(long usuarioId)
     {
-        return await _context.UsuarioModalidades
+        return await _context.UsuarioModalidade
             .Include(x => x.Modalidade)
             .Include(x => x.Graduacao)
             .Where(x => x.UsuarioId == usuarioId && x.Ativo)

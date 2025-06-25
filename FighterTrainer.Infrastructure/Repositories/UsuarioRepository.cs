@@ -33,6 +33,12 @@ namespace FighterTrainer.Infrastructure.Repositories
 
         public async Task<bool> EmailJaCadastradoAsync(string email)
             => await _context.Usuarios.AnyAsync(u => u.Email == email);
+
+        public async Task<List<Usuario>> ListarTodosAsync()
+        {
+            return await _context.Usuarios.ToListAsync();
+        }
+
     }
 
 }
