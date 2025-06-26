@@ -48,6 +48,26 @@ public class UsuarioController : ControllerBase
         return Ok(usuarios);
     }
 
+    [HttpPut("{id}")]
+    public async Task<IActionResult> Atualizar(long id, [FromBody] UsuarioDto dto)
+    {
+        if (id != dto.Id)
+        {
+            return BadRequest("ID da URL e do corpo não coincidem.");
+        }
+
+        try
+        {
+            await _iusuarioService.AtualizarAsync(dto);
+            return Ok("Usuário atualizado com sucesso.");
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new { erro = ex.Message });
+        }
+    }
+
+
 
 
 }

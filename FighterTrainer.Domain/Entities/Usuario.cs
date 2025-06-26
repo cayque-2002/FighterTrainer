@@ -31,4 +31,26 @@ public class Usuario
     public bool VerificarSenha(string senha) =>
        BCrypt.Net.BCrypt.Verify(senha, SenhaHash);
 
+    public void AlterarNome(string nome)
+    {
+        if (string.IsNullOrWhiteSpace(nome))
+            throw new ArgumentException("Nome inválido.");
+
+        Nome = nome;
+    }
+
+    public void AlterarEmail(string email)
+    {
+        if (string.IsNullOrWhiteSpace(email))
+            throw new ArgumentException("Email inválido.");
+
+        Email = email;
+    }
+
+    public void AlterarTipoUsuario(TipoUsuario tipo)
+    {
+        TipoUsuario = tipo;
+    }
+
+
 }

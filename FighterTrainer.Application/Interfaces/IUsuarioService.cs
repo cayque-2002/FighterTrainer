@@ -12,6 +12,8 @@ namespace FighterTrainer.Application.Interfaces
     {
         Task<List<UsuarioDto>> ListarTodosAsync();
         Task<UsuarioDto> RegistrarUsuarioAsync(CreateUsuarioDto dto);
+        Task AtualizarAsync(UsuarioDto dto);
+
     }
 
 }

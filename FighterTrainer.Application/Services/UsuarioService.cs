@@ -90,6 +90,21 @@ namespace FighterTrainer.Application.Services
                 Tipo = u.TipoUsuario
             }).ToList();
         }
+        public async Task AtualizarAsync(UsuarioDto dto)
+        {
+            var usuario = await _usuarioRepository.ObterPorIdAsync(dto.Id);
+
+            if (usuario == null)
+                throw new Exception("Usuário não encontrado.");
+
+            usuario.AlterarNome(dto.Nome);
+            usuario.AlterarEmail(dto.Email);
+            usuario.AlterarTipoUsuario(dto.Tipo);
+
+            await _usuarioRepository.AtualizarAsync(usuario);
+        }
+
+
 
 
     }

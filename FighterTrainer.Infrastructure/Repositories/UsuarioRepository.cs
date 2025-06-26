@@ -39,6 +39,13 @@ namespace FighterTrainer.Infrastructure.Repositories
             return await _context.Usuarios.ToListAsync();
         }
 
+        public async Task AtualizarAsync(Usuario usuario)
+        {
+            _context.Usuarios.Update(usuario);
+            await _context.SaveChangesAsync();
+        }
+
+
     }
 
 }
