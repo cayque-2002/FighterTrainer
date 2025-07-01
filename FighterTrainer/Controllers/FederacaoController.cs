@@ -25,4 +25,22 @@ public class FederacaoController : ControllerBase
         var nova = await _federacaoService.CriarAsync(dto);
         return Ok(nova);
     }
+
+    [HttpPut("{id}")]
+    public async Task<IActionResult> Atualizar(long id, [FromBody] FederacaoDto dto)
+    {
+        if (id != dto.Id)
+            return BadRequest("ID da rota e do corpo não coincidem");
+
+        try
+        {
+            await _federacaoService.AtualizarAsync(dto);
+            return Ok("Federação atualizada com sucesso");
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new { erro = ex.Message });
+        }
+    }
+
 }

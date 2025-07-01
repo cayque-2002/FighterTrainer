@@ -20,10 +20,20 @@ public class FederacaoRepository : IFederacaoRepository
     {
         return await _context.Federacao.ToListAsync();
     }
+    public async Task<Federacao?> ObterPorIdAsync(long id)
+    {
+        return await _context.Federacao.FindAsync(id);
+    }
 
     public async Task AddAsync(Federacao federacao)
     {
         _context.Federacao.Add(federacao);
+        await _context.SaveChangesAsync();
+    }
+
+    public async Task AtualizarAsync(Federacao federacao)
+    {
+        _context.Federacao.Update(federacao);
         await _context.SaveChangesAsync();
     }
 }

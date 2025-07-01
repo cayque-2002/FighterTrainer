@@ -1,4 +1,5 @@
 ﻿using FighterTrainer.Application.Interfaces;
+using FighterTrainer.Application.Services;
 using Microsoft.AspNetCore.Mvc;
 
 [ApiController]
@@ -24,5 +25,22 @@ public class ModalidadeController : ControllerBase
     {
         var nova = await _modalidadeService.CriarAsync(dto);
         return Ok(nova);
+    }
+
+    [HttpPut("{id}")]
+    public async Task<IActionResult> Atualizar(long id, [FromBody] ModalidadeDto dto)
+    {
+        if (id != dto.Id)
+            return BadRequest("ID da rota e do corpo não coincidem");
+
+        try
+        {
+            await _modalidadeService.AtualizarAsync(dto);
+            return Ok("Graduação atualizada com sucesso");
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new { erro = ex.Message });
+        }
     }
 }

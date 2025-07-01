@@ -20,9 +20,20 @@ public class ModalidadeRepository : IModalidadeRepository
         return await _context.Modalidade.ToListAsync();
     }
 
+    public async Task<Modalidade?> ObterPorIdAsync(long id)
+    {
+        return await _context.Modalidade.FindAsync(id);
+    }
+
     public async Task AddAsync(Modalidade modalidade)
     {
         _context.Modalidade.Add(modalidade);
+        await _context.SaveChangesAsync();
+    }
+
+    public async Task AtualizarAsync(Modalidade modalidade)
+    {
+        _context.Modalidade.Update(modalidade);
         await _context.SaveChangesAsync();
     }
 }

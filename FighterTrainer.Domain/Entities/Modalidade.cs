@@ -20,4 +20,10 @@ public class Modalidade
     {
         Descricao = descricao;
     }
+
+    public void Atualizar(string descricao)
+    {
+        Descricao = descricao;
+
+    }
 }

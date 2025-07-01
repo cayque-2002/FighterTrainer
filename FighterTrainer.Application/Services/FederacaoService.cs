@@ -42,6 +42,19 @@ namespace FighterTrainer.Application.Services
 
             };
         }
+
+        public async Task AtualizarAsync(FederacaoDto dto)
+        {
+            var federacao = await _repository.ObterPorIdAsync(dto.Id);
+
+            if (federacao == null)
+                throw new Exception("Federação não encontrada");
+
+            federacao.Atualizar(dto.Descricao); // você precisa ter esse método na entidade
+
+            await _repository.AtualizarAsync(federacao);
+        }
+
     }
 
 

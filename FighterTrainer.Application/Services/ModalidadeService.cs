@@ -39,6 +39,18 @@ namespace FighterTrainer.Application.Services
                 Descricao = modalidade.Descricao
             };
         }
+
+        public async Task AtualizarAsync(ModalidadeDto dto)
+        {
+            var modalidade = await _repository.ObterPorIdAsync(dto.Id);
+
+            if (modalidade == null)
+                throw new Exception("Graduação não encontrada");
+
+            modalidade.Atualizar(dto.Descricao);
+
+            await _repository.AtualizarAsync(modalidade);
+        }
     }
 
 

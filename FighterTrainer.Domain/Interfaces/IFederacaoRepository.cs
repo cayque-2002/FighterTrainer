@@ -10,7 +10,10 @@ namespace FighterTrainer.Domain.Interfaces
     public interface IFederacaoRepository
     {
         Task<List<Federacao>> GetAllAsync();
+        Task<Federacao?> ObterPorIdAsync(long id);
         Task AddAsync(Federacao federacao);
+        Task AtualizarAsync(Federacao federacao);
+
     }
 
 }

@@ -18,4 +18,12 @@ public class Federacao
     {
         Descricao = descricao;
     }
+
+    public void Atualizar(string descricao)
+    {
+        Descricao = descricao;
+
+    }
+
+
 }

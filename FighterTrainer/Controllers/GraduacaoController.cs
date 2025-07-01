@@ -25,4 +25,23 @@ public class GraduacaoController : ControllerBase
         var nova = await _graduacaoService.CriarAsync(dto);
         return Ok(nova);
     }
+
+    [HttpPut("{id}")]
+    public async Task<IActionResult> Atualizar(long id, [FromBody] GraduacaoDto dto)
+    {
+        if (id != dto.Id)
+            return BadRequest("ID da rota e do corpo não coincidem");
+
+        try
+        {
+            await _graduacaoService.AtualizarAsync(dto);
+            return Ok("Graduação atualizada com sucesso");
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new { erro = ex.Message });
+        }
+    }
+
+
 }

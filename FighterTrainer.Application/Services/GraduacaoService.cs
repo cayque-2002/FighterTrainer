@@ -49,6 +49,19 @@ namespace FighterTrainer.Application.Services
 
             };
         }
+        public async Task AtualizarAsync(GraduacaoDto dto)
+        {
+            var graduacao = await _repository.ObterPorIdAsync(dto.Id);
+
+            if (graduacao == null)
+                throw new Exception("Graduação não encontrada");
+
+            graduacao.Atualizar(dto.Descricao, dto.Nivel, dto.Grau, dto.ModalidadeId, dto.FederacaoId);
+
+            await _repository.AtualizarAsync(graduacao);
+        }
+
+
     }
 
 

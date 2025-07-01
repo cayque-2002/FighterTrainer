@@ -10,7 +10,9 @@ namespace FighterTrainer.Domain.Interfaces
     public interface IGraduacaoRepository
     {
         Task<List<Graduacao>> GetAllAsync();
-        Task AddAsync(Graduacao modalidade);
+        Task<Graduacao?> ObterPorIdAsync(long id);
+        Task AddAsync(Graduacao graduacao);
+        Task AtualizarAsync(Graduacao graduacao);
     }
 
 }

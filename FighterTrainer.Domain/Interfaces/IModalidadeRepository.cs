@@ -3,5 +3,8 @@
 public interface IModalidadeRepository
 {
     Task<List<Modalidade>> GetAllAsync();
+    Task<Modalidade?> ObterPorIdAsync(long id);
     Task AddAsync(Modalidade modalidade);
+    Task AtualizarAsync(Modalidade modalidade);
+
 }

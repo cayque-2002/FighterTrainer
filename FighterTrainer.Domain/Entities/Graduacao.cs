@@ -34,4 +34,14 @@ public class Graduacao
         Grau = grau;
         FederacaoId = federacaoId;
     }
+
+    public void Atualizar(string descricao, int nivel, int grau, long modalidadeId, long federacaoId)
+    {
+        Descricao = descricao;
+        Nivel = nivel;
+        Grau = grau;
+        ModalidadeId = modalidadeId;
+        FederacaoId = federacaoId;
+    }
+
 }
