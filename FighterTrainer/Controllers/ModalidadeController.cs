@@ -43,4 +43,14 @@ public class ModalidadeController : ControllerBase
             return BadRequest(new { erro = ex.Message });
         }
     }
+
+    [HttpDelete("{id:long}")]
+    public async Task<IActionResult> Delete(long id)
+    {
+        var resultado = await _modalidadeService.RemoverAsync(id);
+        if (!resultado)
+            return NotFound("Modalidade não encontrada.");
+
+        return NoContent(); 
+    }
 }

@@ -55,6 +55,15 @@ namespace FighterTrainer.Application.Services
             await _repository.AtualizarAsync(federacao);
         }
 
+        public async Task<bool> RemoverAsync(long id)
+        {
+            var usuario = await _repository.ObterPorIdAsync(id);
+            if (usuario == null) return false;
+
+            await _repository.RemoverAsync(usuario.Id);
+            return true;
+        }
+
     }
 
 

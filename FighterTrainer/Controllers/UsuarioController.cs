@@ -67,6 +67,17 @@ public class UsuarioController : ControllerBase
         }
     }
 
+    [HttpDelete("{id:long}")]
+    public async Task<IActionResult> Delete(long id)
+    {
+        var resultado = await _usuarioService.RemoverAsync(id);
+        if (!resultado)
+            return NotFound("Usuário não encontrado.");
+
+        return NoContent(); // ou Ok("Usuário removido com sucesso");
+    }
+
+
 
 
 

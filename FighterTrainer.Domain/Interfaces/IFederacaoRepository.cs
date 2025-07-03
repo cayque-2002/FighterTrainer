@@ -13,6 +13,7 @@ namespace FighterTrainer.Domain.Interfaces
         Task<Federacao?> ObterPorIdAsync(long id);
         Task AddAsync(Federacao federacao);
         Task AtualizarAsync(Federacao federacao);
+        Task<bool> RemoverAsync(long id);
 
     }
 

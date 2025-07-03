@@ -16,6 +16,7 @@ public class Usuario
     public string SenhaHash { get; private set; } = string.Empty;
     public TipoUsuario TipoUsuario { get; private set; }
     public ICollection<UsuarioModalidade> Modalidades { get; set; } = new List<UsuarioModalidade>();
+    public bool Ativo {  get; set; }
 
 
     protected Usuario() { }

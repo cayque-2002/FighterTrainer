@@ -1,4 +1,5 @@
 ﻿using FighterTrainer.Application.Interfaces;
+using FighterTrainer.Application.Services;
 using Microsoft.AspNetCore.Mvc;
 
 [ApiController]
@@ -41,6 +42,16 @@ public class GraduacaoController : ControllerBase
         {
             return BadRequest(new { erro = ex.Message });
         }
+    }
+
+    [HttpDelete("{id:long}")]
+    public async Task<IActionResult> Delete(long id)
+    {
+        var resultado = await _graduacaoService.RemoverAsync(id);
+        if (!resultado)
+            return NotFound("Graduação não encontrada.");
+
+        return NoContent(); 
     }
 
 

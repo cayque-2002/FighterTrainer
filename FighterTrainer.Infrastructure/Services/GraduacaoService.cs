@@ -35,5 +35,22 @@ public class GraduacaoRepository : IGraduacaoRepository
         _context.Graduacao.Update(graduacao);
         await _context.SaveChangesAsync();
     }
+
+    public async Task<bool> RemoverAsync(long id)
+    {
+        var graduacao = await _context.Graduacao.FindAsync(id);
+        if (graduacao == null)
+        {
+            return false;
+        }
+        else
+        {
+            _context.Graduacao.Remove(graduacao);
+            await _context.SaveChangesAsync();
+            return true;
+        }
+
+    }
+
 }
 

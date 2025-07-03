@@ -36,5 +36,22 @@ public class FederacaoRepository : IFederacaoRepository
         _context.Federacao.Update(federacao);
         await _context.SaveChangesAsync();
     }
+
+    public async Task<bool> RemoverAsync(long id)
+    {
+        var federacao = await _context.Federacao.FindAsync(id);
+        if (federacao == null)
+        {
+            return false;
+        }
+        else
+        {
+            _context.Federacao.Remove(federacao);
+            await _context.SaveChangesAsync();
+            return true;
+        }
+
+    }
+
 }
 

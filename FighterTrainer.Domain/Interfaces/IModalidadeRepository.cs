@@ -6,5 +6,5 @@ public interface IModalidadeRepository
     Task<Modalidade?> ObterPorIdAsync(long id);
     Task AddAsync(Modalidade modalidade);
     Task AtualizarAsync(Modalidade modalidade);
-
+    Task<bool> RemoverAsync(long id);
 }

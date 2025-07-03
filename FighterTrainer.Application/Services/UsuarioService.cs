@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using FighterTrainer.Application.Interfaces;
 using FighterTrainer.Domain.Entities;
 using FighterTrainer.Domain.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace FighterTrainer.Application.Services
 {
@@ -103,6 +104,16 @@ namespace FighterTrainer.Application.Services
 
             await _usuarioRepository.AtualizarAsync(usuario);
         }
+
+        public async Task<bool> RemoverAsync(long id)
+        {
+            var usuario = await _usuarioRepository.ObterPorIdAsync(id);
+            if (usuario == null) return false;
+
+            await _usuarioRepository.RemoverAsync(usuario.Id);
+            return true;
+        }
+
 
 
 

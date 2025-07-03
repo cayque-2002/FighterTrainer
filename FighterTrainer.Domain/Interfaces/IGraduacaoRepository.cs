@@ -13,6 +13,7 @@ namespace FighterTrainer.Domain.Interfaces
         Task<Graduacao?> ObterPorIdAsync(long id);
         Task AddAsync(Graduacao graduacao);
         Task AtualizarAsync(Graduacao graduacao);
+        Task<bool> RemoverAsync(long id);
     }
 
 }

@@ -45,6 +45,17 @@ namespace FighterTrainer.Infrastructure.Repositories
             await _context.SaveChangesAsync();
         }
 
+        public async Task<bool> RemoverAsync(long id)
+        {
+            var usuario = await _context.Usuarios.FindAsync(id);
+            if (usuario == null) return false;
+
+            _context.Usuarios.Remove(usuario);
+            await _context.SaveChangesAsync();
+            return true;
+        }
+
+
 
     }
 

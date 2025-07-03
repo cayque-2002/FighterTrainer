@@ -36,5 +36,23 @@ public class ModalidadeRepository : IModalidadeRepository
         _context.Modalidade.Update(modalidade);
         await _context.SaveChangesAsync();
     }
+
+
+    public async Task<bool> RemoverAsync(long id)
+    {
+        var modalidade = await _context.Modalidade.FindAsync(id);
+        if (modalidade == null)
+        {
+          return false;
+        }
+        else 
+        {
+          _context.Modalidade.Remove(modalidade);
+          await _context.SaveChangesAsync();
+          return true;
+        }
+        
+    }
+
 }
 
