@@ -20,11 +20,17 @@ public class UsuarioModalidade
 
 
     protected UsuarioModalidade() { }
-    public UsuarioModalidade(long usuarioId, long modalidadeId, long graduacaoId)
+    public UsuarioModalidade(long usuarioId, long modalidadeId, long graduacaoId, DateTime dataInicio, bool ativo)
     {
         UsuarioId = usuarioId;
         ModalidadeId = modalidadeId;
         GraduacaoId = graduacaoId;
+        DataInicio = dataInicio;
+        Ativo = ativo;
+
     }
+
+    public void Inativar() => Ativo = false;
+
 }
 

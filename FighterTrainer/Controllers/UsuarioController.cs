@@ -48,7 +48,7 @@ public class UsuarioController : ControllerBase
         return Ok(usuarios);
     }
 
-    [HttpPut("{id}")]
+    [HttpPut("atualizar/{id}")]
     public async Task<IActionResult> Atualizar(long id, [FromBody] UsuarioDto dto)
     {
         if (id != dto.Id)
@@ -75,6 +75,15 @@ public class UsuarioController : ControllerBase
             return NotFound("Usuário não encontrado.");
 
         return NoContent(); // ou Ok("Usuário removido com sucesso");
+    }
+
+    [HttpPut("Inativar/{id}")]
+    public async Task<IActionResult> Inativar(long id)
+    {
+        
+            await _usuarioService.InativarAsync(id);
+            return Ok("usuario desativado com sucesso");
+        
     }
 
 

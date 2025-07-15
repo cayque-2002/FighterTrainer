@@ -6,4 +6,5 @@ public interface IUsuarioModalidadeRepository
 {
     Task AdicionarAsync(UsuarioModalidade usuarioModalidade);
     Task<List<UsuarioModalidade>> ObterPorUsuarioIdAsync(long usuarioId);
+    Task InativarAsync(long usuarioId, long modalidadeId);
 }

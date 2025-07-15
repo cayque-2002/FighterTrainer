@@ -55,7 +55,14 @@ namespace FighterTrainer.Infrastructure.Repositories
             return true;
         }
 
+        public async Task InativarAsync(long id)
+        {
+            var usuario = await _context.Usuarios.FindAsync(id);
 
+            usuario.Inativar();
+            await _context.SaveChangesAsync();
+
+        }
 
     }
 

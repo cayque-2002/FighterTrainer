@@ -14,6 +14,7 @@ namespace FighterTrainer.Application.Interfaces
         Task<UsuarioDto> RegistrarUsuarioAsync(CreateUsuarioDto dto);
         Task AtualizarAsync(UsuarioDto dto);
         Task<bool> RemoverAsync(long id);
+        Task InativarAsync(long id);
 
     }
 

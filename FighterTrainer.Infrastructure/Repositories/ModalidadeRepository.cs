@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using FighterTrainer.Infrastructure.Context;
 using System;
 
-namespace FighterTrainer.Application.Services;
+namespace FighterTrainer.Infrastructure.Repositories;
 
 public class ModalidadeRepository : IModalidadeRepository
 {

@@ -53,5 +53,6 @@ public class Usuario
         TipoUsuario = tipo;
     }
 
+    public void Inativar() => Ativo = false;
 
 }

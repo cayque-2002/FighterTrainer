@@ -5,7 +5,7 @@ using FighterTrainer.Infrastructure.Context;
 using System;
 using FighterTrainer.Domain.Interfaces;
 
-namespace FighterTrainer.Application.Services;
+namespace FighterTrainer.Infrastructure.Repositories;
 
 public class GraduacaoRepository : IGraduacaoRepository
 {

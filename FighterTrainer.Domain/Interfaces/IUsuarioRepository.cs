@@ -16,6 +16,8 @@ namespace FighterTrainer.Domain.Interfaces
         Task<bool> EmailJaCadastradoAsync(string email);
         Task AtualizarAsync(Usuario usuario);
         Task<bool> RemoverAsync(long id);
+        Task InativarAsync(long id);
+
 
     }
 

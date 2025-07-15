@@ -25,7 +25,18 @@ public class UsuarioModalidadeRepository : IUsuarioModalidadeRepository
         return await _context.UsuarioModalidade
             .Include(um => um.Modalidade)
             .Include(um => um.Graduacao)
+            .Include(um => um.DataInicio)
+            .Include(um => um.Ativo)
             .Where(um => um.UsuarioId == usuarioId)
             .ToListAsync();
+    }
+
+    public async Task InativarAsync(long usuarioId, long modalidadeId)
+    {
+        var usuario =  _context.UsuarioModalidade.Where(x=> x.UsuarioId == usuarioId && x.ModalidadeId == modalidadeId).First();
+
+        usuario.Inativar();
+        await _context.SaveChangesAsync();
+
     }
 }

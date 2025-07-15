@@ -5,4 +5,6 @@
     public long GraduacaoId { get; set; }
     public DateTime DataInicio { get; set; }
     public bool Ativo { get; set; }
+
+    public void Inativar() => Ativo = false;
 }

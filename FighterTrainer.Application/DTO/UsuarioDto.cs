@@ -7,4 +7,6 @@ public class UsuarioDto
     public string Email { get; set; } = string.Empty;
     public TipoUsuario Tipo { get; set; }
     public bool Ativo { get; set; }
+
+    public void Inativar() => Ativo = false;
 }

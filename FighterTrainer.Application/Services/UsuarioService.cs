@@ -72,7 +72,7 @@ namespace FighterTrainer.Application.Services
                 }
                 else 
                 {
-                    var modalidadesUsuario = new UsuarioModalidade(usuarioId, modalidadeId, graduacaoId);
+                    var modalidadesUsuario = new UsuarioModalidade(usuarioId, modalidadeId, graduacaoId, usuarioModalidade.DataInicio, usuarioModalidade.Ativo);
                     await _usuarioModalidadeRepository.AdicionarAsync(modalidadesUsuario);
                 }
 
@@ -112,6 +112,16 @@ namespace FighterTrainer.Application.Services
 
             await _usuarioRepository.RemoverAsync(usuario.Id);
             return true;
+        }
+
+        public async Task InativarAsync(long id)
+        {
+            var usuario = await _usuarioRepository.ObterPorIdAsync(id);
+            if (usuario == null)
+                throw new Exception("Usuário não encontrado");
+
+            usuario.Inativar();
+            await _usuarioRepository.InativarAsync(id);
         }
 
 
