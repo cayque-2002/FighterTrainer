@@ -10,6 +10,16 @@ public class Atleta
 {
     public long Id { get; private set; }
     public long UsuarioId { get; private set; }
+    public decimal Peso {  get; private set; }
+    public int Altura {  get; private set; }
+    public string Apelido { get; private set; }
+    public int Resistencia {  get; private set; }
+    public int Agilidade {  get; private set; }
+    public int Solo {  get; private set; }
+    public int Wrestling {  get; private set; }
+    public int FocoMental {  get; private set; }
+    public int Defesa {  get; private set; }
+    public int LutaEmPe {  get; private set; }
 
     // Dados do atleta, como peso, faixa, etc (expansível depois)
 
