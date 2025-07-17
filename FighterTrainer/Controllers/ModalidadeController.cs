@@ -20,6 +20,13 @@ public class ModalidadeController : ControllerBase
         return Ok(lista);
     }
 
+    [HttpGet("{modalidadeId}")]
+    public async Task<IActionResult> GetPorId(long modalidadeId)
+    {
+        var lista = await _modalidadeService.ListarPorId(modalidadeId);
+        return Ok(lista);
+    }
+
     [HttpPost]
     public async Task<IActionResult> Post([FromBody] ModalidadeDto dto)
     {

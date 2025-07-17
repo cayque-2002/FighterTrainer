@@ -20,13 +20,27 @@ namespace FighterTrainer.Application.Services
 
         public async Task<List<FederacaoDto>> ListarTodasAsync()
         {
-            var graduacoes = await _repository.GetAllAsync();
-            return graduacoes.Select(m => new FederacaoDto
+            var federacoes = await _repository.GetAllAsync();
+            return federacoes.Select(m => new FederacaoDto
             {
                 Id = m.Id, 
                 Descricao = m.Descricao
 
             }).ToList();
+        }
+
+        public async Task<IEnumerable<FederacaoDto>> ListarPorId(long federacaoId)
+        {
+            var federacao = await _repository.ObterPorIdAsync(federacaoId);
+            if (federacao == null)
+            {
+                throw new Exception("Federação não encontrada.");
+            }
+            else
+            {
+                return (IEnumerable<FederacaoDto>)federacao;
+            }
+
         }
 
         public async Task<FederacaoDto> CriarAsync(FederacaoDto dto)

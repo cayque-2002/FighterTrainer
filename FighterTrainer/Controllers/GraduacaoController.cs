@@ -20,6 +20,13 @@ public class GraduacaoController : ControllerBase
         return Ok(lista);
     }
 
+    [HttpGet("{graduacaoId}")]
+    public async Task<IActionResult> GetPorId(long graduacaoId)
+    {
+        var lista = await _graduacaoService.ListarPorId(graduacaoId);
+        return Ok(lista);
+    }
+
     [HttpPost]
     public async Task<IActionResult> Post([FromBody] GraduacaoDto dto)
     {

@@ -5,6 +5,7 @@ namespace FighterTrainer.Application.Interfaces;
 public interface IModalidadeService
 {
     Task<List<ModalidadeDto>> ListarTodasAsync();
+    Task<IEnumerable<ModalidadeDto>> ListarPorId(long modalidadeId);
     Task<ModalidadeDto> CriarAsync(ModalidadeDto dto);
     Task AtualizarAsync(ModalidadeDto dto);
     Task<bool> RemoverAsync(long id);

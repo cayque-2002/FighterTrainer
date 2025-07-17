@@ -11,6 +11,7 @@ namespace FighterTrainer.Application.Interfaces
     public interface IUsuarioService
     {
         Task<List<UsuarioDto>> ListarTodosAsync();
+        Task<IEnumerable<UsuarioDto>> ListarPorId(long usuarioId);
         Task<UsuarioDto> RegistrarUsuarioAsync(CreateUsuarioDto dto);
         Task AtualizarAsync(UsuarioDto dto);
         Task<bool> RemoverAsync(long id);

@@ -48,6 +48,13 @@ public class UsuarioController : ControllerBase
         return Ok(usuarios);
     }
 
+    [HttpGet("{usuarioId}")]
+    public async Task<IActionResult> GetPorId(long usuarioId)
+    {
+        var lista = await _iusuarioService.ListarPorId(usuarioId);
+        return Ok(lista);
+    }
+
     [HttpPut("atualizar/{id}")]
     public async Task<IActionResult> Atualizar(long id, [FromBody] UsuarioDto dto)
     {

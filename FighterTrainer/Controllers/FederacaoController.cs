@@ -20,6 +20,13 @@ public class FederacaoController : ControllerBase
         return Ok(lista);
     }
 
+    [HttpGet("{federacaoId}")]
+    public async Task<IActionResult> GetPorId(long federacaoId)
+    {
+        var lista = await _federacaoService.ListarPorId(federacaoId);
+        return Ok(lista);
+    }
+
     [HttpPost]
     public async Task<IActionResult> Post([FromBody] FederacaoDto dto)
     {

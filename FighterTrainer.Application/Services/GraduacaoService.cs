@@ -33,6 +33,20 @@ namespace FighterTrainer.Application.Services
             }).ToList();
         }
 
+        public async Task<IEnumerable<GraduacaoDto>> ListarPorId(long graduacaoId)
+        {
+            var graduacao = await _repository.ObterPorIdAsync(graduacaoId);
+            if (graduacao == null)
+            {
+                throw new Exception("Graduação não encontrada.");
+            }
+            else
+            {
+                return (IEnumerable<GraduacaoDto>)graduacao;
+            }
+
+        }
+
         public async Task<GraduacaoDto> CriarAsync(GraduacaoDto dto)
         {
             var graduacao = new Graduacao(dto.ModalidadeId,dto.Descricao,dto.Nivel,dto.Grau, dto.FederacaoId);

@@ -60,6 +60,20 @@ namespace FighterTrainer.Application.Services
             };
         }
 
+        public async Task<IEnumerable<UsuarioDto>> ListarPorId(long usuarioId)
+        {
+            var usuario = await _usuarioRepository.ObterPorIdAsync(usuarioId);
+            if (usuario == null)
+            {
+                throw new Exception("Usuário não encontrado.");
+            }
+            else
+            {
+                return (IEnumerable<UsuarioDto>)usuario;
+            }
+            
+        }
+
         public async Task VincularUsuarioModalidadeAsync(long usuarioId, long modalidadeId, long graduacaoId)
         {
 
