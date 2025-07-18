@@ -60,7 +60,7 @@ namespace FighterTrainer.Application.Services
             };
         }
 
-        public async Task<IEnumerable<UsuarioDto>> ListarPorId(long usuarioId)
+        public async Task<UsuarioDto> ListarPorId(long usuarioId)
         {
             var usuario = await _usuarioRepository.ObterPorIdAsync(usuarioId);
             if (usuario == null)
@@ -69,7 +69,14 @@ namespace FighterTrainer.Application.Services
             }
             else
             {
-                return (IEnumerable<UsuarioDto>)usuario;
+                return new UsuarioDto
+                {
+                    Id = usuario.Id,
+                    Ativo = usuario.Ativo,
+                    Email = usuario.Email,
+                    Nome = usuario.Nome,
+                    Tipo = usuario.TipoUsuario
+                };
             }
             
         }

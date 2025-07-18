@@ -29,7 +29,7 @@ namespace FighterTrainer.Application.Services
             }).ToList();
         }
 
-        public async Task<IEnumerable<FederacaoDto>> ListarPorId(long federacaoId)
+        public async Task<FederacaoDto> ListarPorId(long federacaoId)
         {
             var federacao = await _repository.ObterPorIdAsync(federacaoId);
             if (federacao == null)
@@ -38,7 +38,11 @@ namespace FighterTrainer.Application.Services
             }
             else
             {
-                return (IEnumerable<FederacaoDto>)federacao;
+                return new FederacaoDto
+                {
+                    Id = federacao.Id,
+                    Descricao = federacao.Descricao
+                };
             }
 
         }

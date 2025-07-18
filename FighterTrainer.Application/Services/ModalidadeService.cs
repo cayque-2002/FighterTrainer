@@ -28,7 +28,7 @@ namespace FighterTrainer.Application.Services
             }).ToList();
         }
 
-        public async Task<IEnumerable<ModalidadeDto>> ListarPorId(long modalidadeId)
+        public async Task<ModalidadeDto> ListarPorId(long modalidadeId)
         {
             var modalidade = await _repository.ObterPorIdAsync(modalidadeId);
             if (modalidade == null)
@@ -37,7 +37,11 @@ namespace FighterTrainer.Application.Services
             }
             else
             {
-                return (IEnumerable<ModalidadeDto>)modalidade;
+                return new ModalidadeDto 
+                {
+                    Id = modalidade.Id, 
+                    Descricao = modalidade.Descricao
+                };
             }
 
         }

@@ -33,7 +33,7 @@ namespace FighterTrainer.Application.Services
             }).ToList();
         }
 
-        public async Task<IEnumerable<GraduacaoDto>> ListarPorId(long graduacaoId)
+        public async Task<GraduacaoDto> ListarPorId(long graduacaoId)
         {
             var graduacao = await _repository.ObterPorIdAsync(graduacaoId);
             if (graduacao == null)
@@ -42,7 +42,16 @@ namespace FighterTrainer.Application.Services
             }
             else
             {
-                return (IEnumerable<GraduacaoDto>)graduacao;
+                return new GraduacaoDto
+                {
+                    Id = graduacaoId,
+                    Descricao = graduacao.Descricao,
+                    FederacaoId= graduacao.FederacaoId,
+                    Grau = graduacao.Grau ?? 0,
+                    ModalidadeId = graduacao.ModalidadeId,   
+                    Nivel = graduacao.Nivel
+
+                };
             }
 
         }
