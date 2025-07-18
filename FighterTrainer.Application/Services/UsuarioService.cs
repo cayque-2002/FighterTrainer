@@ -41,13 +41,6 @@ namespace FighterTrainer.Application.Services
             var usuario = new Usuario(dto.Nome, dto.Email, senhaHash, dto.Tipo);
             await _usuarioRepository.AdicionarAsync(usuario);
 
-            // Vínculo com modalidade e graduação (usuário treinador ou aluno)
-            //var usuarioModalidade = new UsuarioModalidade(
-            //    usuario.Id,
-            //    dto.ModalidadeId,
-            //    dto.GraduacaoId
-            //);
-
             //await _usuarioModalidadeRepository.AdicionarAsync(usuarioModalidade);
 
             // Retorno
