@@ -36,6 +36,12 @@ builder.Services.AddScoped<GraduacaoService>();
 builder.Services.AddScoped<IFederacaoRepository, FederacaoRepository>();
 builder.Services.AddScoped<IFederacaoService, FederacaoService>();
 builder.Services.AddScoped<FederacaoService>();
+builder.Services.AddScoped<ICidadeRepository, CidadeRepository>();
+builder.Services.AddScoped<ICidadeService, CidadeService>();
+builder.Services.AddScoped<CidadeService>();
+builder.Services.AddScoped<IUnidadeRepository, UnidadeRepository>();
+builder.Services.AddScoped<IUnidadeService, UnidadeService>();
+builder.Services.AddScoped<UnidadeService>();
 
 
 

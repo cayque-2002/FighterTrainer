@@ -13,9 +13,12 @@ public class AppDbContext : DbContext
     public DbSet<Treinador> Treinadores => Set<Treinador>();
     public DbSet<FichaTreino> FichasTreino => Set<FichaTreino>();
     public DbSet<UsuarioModalidade> UsuarioModalidade { get; set; }
-    public DbSet<Modalidade> Modalidade { get; set; }
-    public DbSet<Graduacao> Graduacao { get; set; }
-    public DbSet<Federacao> Federacao { get; set; }
+    public DbSet<Modalidade> Modalidade => Set<Modalidade>();
+    public DbSet<Graduacao> Graduacao => Set<Graduacao>();
+    public DbSet<Federacao> Federacao => Set<Federacao>();
+    public DbSet<Cidade> Cidade => Set<Cidade>();
+    public DbSet<Unidade> Unidade => Set<Unidade>();
+    public DbSet<Turma> Turma => Set<Turma>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
