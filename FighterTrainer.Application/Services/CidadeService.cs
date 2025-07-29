@@ -25,7 +25,7 @@ namespace FighterTrainer.Application.Services
             {
                 Id = c.Id, 
                 Nome = c.Nome,
-                Estado = c.Estado
+                Uf = c.UF
             }).ToList();
         }
 
@@ -42,7 +42,7 @@ namespace FighterTrainer.Application.Services
                 {
                     Id = cidade.Id,
                     Nome = cidade.Nome,
-                    Estado = cidade.Estado
+                    Uf = cidade.UF
 
                 };
             }
