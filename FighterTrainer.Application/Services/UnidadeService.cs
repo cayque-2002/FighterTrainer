@@ -20,6 +20,20 @@ namespace FighterTrainer.Application.Services
             _unidadeRepository = unidadeRepository;
         }
 
+        public async Task<UnidadeDto> CriarAsync(UnidadeDto dto)
+        {
+            var unidade = new Unidade(dto.Descricao, dto.CidadeId, dto.DataCriacao, dto.Ativo);
+            await _unidadeRepository.AddAsync(unidade);
+
+            return new UnidadeDto
+            {
+                Descricao = dto.Descricao,
+                CidadeId = dto.CidadeId,
+                DataCriacao = dto.DataCriacao,
+                Ativo = dto.Ativo
+            };
+        }
+
         public async Task<UnidadeDto> ListarPorId(long unidadeId)
         {
             var unidade = await _unidadeRepository.ListarPorId(unidadeId);

@@ -8,12 +8,11 @@ using FighterTrainer.Domain.Entities;
 
 namespace FighterTrainer.Application.Interfaces
 {
-    public interface IUnidadeService
+    public interface ITurmaService
     {
-        Task<UnidadeDto> CriarAsync(UnidadeDto dto);
-        Task<List<UnidadeDto>> ListarTodasAsync();
-        Task<UnidadeDto> ListarPorId(long usuarioId);
-        Task AtualizarAsync(UnidadeDto dto);
+        Task<List<TurmaDto>> ListarTodasAsync();
+        Task<TurmaDto> ListarPorId(long turmaId);
+        Task AtualizarAsync(TurmaDto dto);
         Task<bool> RemoverAsync(long id);
         Task InativarAsync(long id);
 

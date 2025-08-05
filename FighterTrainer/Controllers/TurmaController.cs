@@ -10,46 +10,46 @@ namespace FighterTrainer.API.Controllers;
 [Route("[controller]")]
 
 
-public class UnidadeController : ControllerBase
+public class TurmaController : ControllerBase
 {
 
     private readonly AppDbContext _context;
     private readonly TokenService _tokenService;
-    private readonly UnidadeService _unidadeService;
-    private readonly IUnidadeService _iunidadeService;
+    private readonly TurmaService _turmaService;
+    private readonly ITurmaService _iturmaService;
 
-    public UnidadeController(AppDbContext context, TokenService tokenService, UnidadeService unidadeService, IUnidadeService iunidadeService)
+    public TurmaController(AppDbContext context, TokenService tokenService,TurmaService turmaService, ITurmaService iturmaService)
     {
         _context = context;
         _tokenService = tokenService;
-        _unidadeService = unidadeService;
-        _iunidadeService = iunidadeService;
+        _turmaService = turmaService;
+        _iturmaService = iturmaService;
     }
 
 
     [HttpPost]
-    public async Task<IActionResult> Post([FromBody] UnidadeDto dto)
+    public async Task<IActionResult> Post([FromBody] TurmaDto dto)
     {
-        var nova = await _unidadeService.CriarAsync(dto);
+        var nova = await _turmaService.CriarAsync(dto);
         return Ok(nova);
     }
 
     [HttpGet]
     public async Task<IActionResult> Get()
     {
-        var usuarios = await _iunidadeService.ListarTodasAsync();
+        var usuarios = await _iturmaService.ListarTodasAsync();
         return Ok(usuarios);
     }
 
     [HttpGet("{usuarioId}")]
     public async Task<IActionResult> GetPorId(long usuarioId)
     {
-        var lista = await _iunidadeService.ListarPorId(usuarioId);
+        var lista = await _iturmaService.ListarPorId(usuarioId);
         return Ok(lista);
     }
 
     [HttpPut("atualizar/{id}")]
-    public async Task<IActionResult> Atualizar(long id, [FromBody] UnidadeDto dto)
+    public async Task<IActionResult> Atualizar(long id, [FromBody] TurmaDto dto)
     {
         if (id != dto.Id)
         {
@@ -58,8 +58,8 @@ public class UnidadeController : ControllerBase
 
         try
         {
-            await _iunidadeService.AtualizarAsync(dto);
-            return Ok("Unidade atualizado com sucesso.");
+            await _iturmaService.AtualizarAsync(dto);
+            return Ok("Turma atualizada com sucesso.");
         }
         catch (Exception ex)
         {
@@ -70,9 +70,9 @@ public class UnidadeController : ControllerBase
     [HttpDelete("{id:long}")]
     public async Task<IActionResult> Delete(long id)
     {
-        var resultado = await _iunidadeService.RemoverAsync(id);
+        var resultado = await _iturmaService.RemoverAsync(id);
         if (!resultado)
-            return NotFound("Unidade não encontrada.");
+            return NotFound("Turma não encontrada.");
 
         return NoContent(); // ou Ok("Usuário removido com sucesso");
     }
@@ -81,8 +81,8 @@ public class UnidadeController : ControllerBase
     public async Task<IActionResult> Inativar(long id)
     {
         
-            await _iunidadeService.InativarAsync(id);
-            return Ok("Unidade desativada com sucesso");
+            await _iturmaService.InativarAsync(id);
+            return Ok("Turma desativada com sucesso");
         
     }
 

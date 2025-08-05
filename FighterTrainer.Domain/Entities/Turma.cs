@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -29,9 +30,17 @@ public class Turma
     public Treinador Treinador { get; private set; }
     public DateTime DataCriacao { get; private set; }
     public bool Ativo {  get; private set; }
-    protected Turma() { }
-    public Turma(long turmaId)
+
+    public Turma(long unidadeId, string descricao, DateTime horaInicioAula, DateTime horaFimAula, long treinadorResponsavelId, DateTime dataCriacao, bool ativo)
     {
-        Id = turmaId;
+        UnidadeId = unidadeId;
+        Descricao = descricao;
+        HoraInicioAula = horaInicioAula;
+        HoraFimAula = horaFimAula;
+        TreinadorResponsavelId = treinadorResponsavelId;
+        DataCriacao = dataCriacao;
+        Ativo = ativo;
     }
+
+    public void Inativar() => Ativo = false;
 }

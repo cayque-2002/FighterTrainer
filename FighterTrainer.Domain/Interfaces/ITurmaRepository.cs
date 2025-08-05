@@ -7,14 +7,14 @@ using System.Threading.Tasks;
 
 namespace FighterTrainer.Domain.Interfaces
 {
-    public interface IUnidadeRepository
+    public interface ITurmaRepository
     {
 
-        Task AddAsync(Unidade unidade);
-        Task<List<Unidade>> ListarTodasAsync();
-        Task<Unidade?> ListarPorId(long unidadeId);
-        Task AdicionarAsync(Unidade unidade);
-        Task AtualizarAsync(Unidade unidade);
+        Task AddAsync(Turma turma);
+        Task<List<Turma>> ListarTodasAsync();
+        Task<Turma?> ListarPorId(long turmaId);
+        Task AdicionarAsync(Turma turma);
+        Task AtualizarAsync(Turma turma);
         Task<bool> RemoverAsync(long id);
         Task InativarAsync(long id);
 

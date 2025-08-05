@@ -1,7 +1,7 @@
 ﻿using FighterTrainer.Domain.Entities;
 using System.ComponentModel.DataAnnotations;
 
-public class Turma
+public class TurmaDto
 {
     public long Id { get; set; }
 

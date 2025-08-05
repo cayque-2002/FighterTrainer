@@ -19,10 +19,15 @@ public class Unidade
     public Cidade Cidade { get; private set; }
     public DateTime DataCriacao { get; private set; }
     public bool Ativo {  get; private set; }
-    protected Unidade() { }
-    public Unidade(long unidadeId)
+
+    public Unidade(string descricao, long cidadeId, DateTime dataCriacao, bool ativo)
     {
-        Id = unidadeId;
+
+        Descricao = descricao;
+        CidadeId = cidadeId;
+        DataCriacao = dataCriacao;
+        Ativo = ativo;
+
     }
 
     public void Inativar() => Ativo = false;
