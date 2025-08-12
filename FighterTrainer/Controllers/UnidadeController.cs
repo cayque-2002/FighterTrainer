@@ -41,10 +41,10 @@ public class UnidadeController : ControllerBase
         return Ok(usuarios);
     }
 
-    [HttpGet("{usuarioId}")]
-    public async Task<IActionResult> GetPorId(long usuarioId)
+    [HttpGet("{unidadeId}")]
+    public async Task<IActionResult> GetPorId(long unidadeId)
     {
-        var lista = await _iunidadeService.ListarPorId(usuarioId);
+        var lista = await _iunidadeService.ListarPorId(unidadeId);
         return Ok(lista);
     }
 

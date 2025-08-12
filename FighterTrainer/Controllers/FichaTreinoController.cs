@@ -41,10 +41,10 @@ public class FichaTreinoController : ControllerBase
         return Ok(usuarios);
     }
 
-    [HttpGet("{atletaId}")]
-    public async Task<IActionResult> GetPorId(long atletaId)
+    [HttpGet("{fichaTreinoId}")]
+    public async Task<IActionResult> GetPorId(long fichaTreinoId)
     {
-        var lista = await _iFichaTreinoService.ListarPorId(atletaId);
+        var lista = await _iFichaTreinoService.ListarPorId(fichaTreinoId);
         return Ok(lista);
     }
 

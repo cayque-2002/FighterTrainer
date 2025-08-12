@@ -12,7 +12,7 @@ namespace FighterTrainer.Application.Interfaces
     {
         Task<UnidadeDto> CriarAsync(UnidadeDto dto);
         Task<List<UnidadeDto>> ListarTodasAsync();
-        Task<UnidadeDto> ListarPorId(long usuarioId);
+        Task<UnidadeDto> ListarPorId(long unidadeId);
         Task AtualizarAsync(UnidadeDto dto);
         Task<bool> RemoverAsync(long id);
         Task InativarAsync(long id);

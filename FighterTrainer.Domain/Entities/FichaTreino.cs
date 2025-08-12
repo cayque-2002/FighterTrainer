@@ -28,10 +28,10 @@ public class FichaTreino
     public long TurmaId {  get; set; }
     public Turma Turma { get; set; }   
 
-    public FichaTreino(long atletaId, long modalidade, NivelTreino nivel, string descricao, long turmaId)
+    public FichaTreino(long atletaId, long usuarioModalidadeId, NivelTreino nivel, string descricao, long turmaId)
     {
         AtletaId = atletaId;
-        UsuarioModalidadeId = modalidade;
+        UsuarioModalidadeId = usuarioModalidadeId;
         Nivel = nivel;
         Descricao = descricao;
         DataCriacao = DateTime.UtcNow;

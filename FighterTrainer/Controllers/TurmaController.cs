@@ -41,10 +41,10 @@ public class TurmaController : ControllerBase
         return Ok(usuarios);
     }
 
-    [HttpGet("{usuarioId}")]
-    public async Task<IActionResult> GetPorId(long usuarioId)
+    [HttpGet("{turmaId}")]
+    public async Task<IActionResult> GetPorId(long turmaId)
     {
-        var lista = await _iturmaService.ListarPorId(usuarioId);
+        var lista = await _iturmaService.ListarPorId(turmaId);
         return Ok(lista);
     }
 

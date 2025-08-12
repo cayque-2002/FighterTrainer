@@ -20,7 +20,7 @@ public class CidadeController : ControllerBase
         return Ok(lista);
     }
 
-    [HttpGet("{graduacaoId}")]
+    [HttpGet("{cidadeId}")]
     public async Task<IActionResult> GetPorId(long graduacaoId)
     {
         var lista = await _cidadeService.ListarPorId(graduacaoId);
