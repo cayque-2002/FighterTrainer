@@ -9,10 +9,10 @@ namespace FighterTrainer.Domain.Entities;
 
 public class Treinador
 {
-    public long Id { get; private set; }
+    public long Id { get; set; }
 
     [Required(ErrorMessage = "Usuario é obrigatório.")]
-    public long UsuarioId { get; private set; }
+    public long UsuarioId { get; set; }
 
     protected Treinador() { }
     public Treinador(long usuarioId)

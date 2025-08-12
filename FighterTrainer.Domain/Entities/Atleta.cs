@@ -12,17 +12,17 @@ public class Atleta
     public long Id { get; private set; }
 
     [Required(ErrorMessage = "Usuario é obrigatório.")]
-    public long UsuarioId { get; private set; }
-    public decimal Peso {  get; private set; }
-    public int Altura {  get; private set; }
-    public string Apelido { get; private set; }
-    public int Resistencia {  get; private set; }
-    public int Agilidade {  get; private set; }
-    public int Solo {  get; private set; }
-    public int Wrestling {  get; private set; }
-    public int FocoMental {  get; private set; }
-    public int Defesa {  get; private set; }
-    public int LutaEmPe {  get; private set; }
+    public long UsuarioId { get; set; }
+    public decimal Peso {  get; set; } = decimal.Zero;
+    public int Altura { get; set; } = 0;
+    public string Apelido { get; set; }
+    public int Resistencia {  get; set; }
+    public int Agilidade {  get; set; }
+    public int Solo {  get; set; }
+    public int Wrestling {  get; set; }
+    public int FocoMental {  get; set; }
+    public int Defesa {  get; set; }
+    public int LutaEmPe {  get; set; }
 
     // Dados do atleta, como peso, faixa, etc (expansível depois)
 

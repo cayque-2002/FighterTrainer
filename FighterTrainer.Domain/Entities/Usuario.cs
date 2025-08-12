@@ -10,11 +10,11 @@ namespace FighterTrainer.Domain.Entities;
 
 public class Usuario
 {
-    public long Id { get; private set; }
-    public string Nome { get; private set; } = string.Empty;
-    public string Email { get; private set; } = string.Empty;
-    public string SenhaHash { get; private set; } = string.Empty;
-    public TipoUsuario TipoUsuario { get; private set; }
+    public long Id { get; set; }
+    public string Nome { get; set; } = string.Empty;
+    public string Email { get; set; } = string.Empty;
+    public string SenhaHash { get; set; } = string.Empty;
+    public TipoUsuario TipoUsuario { get; set; }
     public ICollection<UsuarioModalidade> Modalidades { get; set; } = new List<UsuarioModalidade>();
     public bool Ativo {  get; set; }
 

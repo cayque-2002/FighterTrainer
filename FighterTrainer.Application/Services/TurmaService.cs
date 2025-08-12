@@ -22,7 +22,7 @@ namespace FighterTrainer.Application.Services
 
         public async Task<TurmaDto> CriarAsync(TurmaDto dto)
         {
-            var Turma = new Turma(dto.UnidadeId,dto.Descricao,dto.HoraInicioAula,dto.HoraFimAula,dto.TreinadorResponsavelId,dto.DataCriacao,dto.Ativo);
+            var Turma = new Turma(dto.UnidadeId,dto.Descricao,dto.HoraInicioAula,dto.HoraFimAula,dto.TreinadorResponsavelId,dto.DataCriacao,dto.Ativo, dto.LimiteAlunos);
             await _TurmaRepository.AddAsync(Turma);
 
             return new TurmaDto
@@ -33,7 +33,8 @@ namespace FighterTrainer.Application.Services
                 HoraFimAula = dto.HoraFimAula,
                 TreinadorResponsavelId = dto.TreinadorResponsavelId,
                 DataCriacao = dto.DataCriacao,
-                Ativo = dto.Ativo
+                Ativo = dto.Ativo,
+                LimiteAlunos = dto.LimiteAlunos
             };
         }
 

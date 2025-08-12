@@ -8,8 +8,8 @@ namespace FighterTrainer.Domain.Entities;
 
 public class Federacao
 {
-    public long Id { get; private set; }
-    public string Descricao { get; private set; }
+    public long Id { get; set; }
+    public string Descricao { get; set; }
 
     //Por enquanto só nome da federação
 

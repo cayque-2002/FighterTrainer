@@ -10,12 +10,12 @@ namespace FighterTrainer.Application.Interfaces
 {
     public interface ITurmaService
     {
+        Task<TurmaDto> CriarAsync(TurmaDto dto);
         Task<List<TurmaDto>> ListarTodasAsync();
         Task<TurmaDto> ListarPorId(long turmaId);
         Task AtualizarAsync(TurmaDto dto);
         Task<bool> RemoverAsync(long id);
         Task InativarAsync(long id);
-
     }
 
 }

@@ -8,13 +8,13 @@ namespace FighterTrainer.Domain.Entities;
 
 public class Graduacao
 {
-    public long Id { get; private set; }
-    public long ModalidadeId { get; private set; }
-    public string Descricao { get; private set; }
-    public int Nivel {  get; private set; }
-    public int? Grau { get; private set; }
-    public long FederacaoId { get; private set; }
-    public Federacao Federacao { get; private set; }
+    public long Id { get; set; }
+    public long ModalidadeId { get; set; }
+    public string Descricao { get; set; }
+    public int Nivel {  get; set; }
+    public int? Grau { get; set; }
+    public long FederacaoId { get; set; }
+    public Federacao Federacao { get; set; }
 
     //Exemplo
     //ModalidadeId - 1 (Jiu jitsu)

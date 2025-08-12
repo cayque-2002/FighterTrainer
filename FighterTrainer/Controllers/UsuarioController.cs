@@ -89,7 +89,7 @@ public class UsuarioController : ControllerBase
     {
         
             await _usuarioService.InativarAsync(id);
-            return Ok("usuario desativado com sucesso");
+            return Ok("Usuário desativado com sucesso");
         
     }
 

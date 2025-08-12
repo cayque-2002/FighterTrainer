@@ -8,8 +8,8 @@ namespace FighterTrainer.Domain.Entities;
 
 public class Modalidade
 {
-    public long Id { get; private set; }
-    public string Descricao { get; private set; }
+    public long Id { get; set; }
+    public string Descricao { get; set; }
     public ICollection<UsuarioModalidade> Usuarios { get; set; } = new List<UsuarioModalidade>();
 
 

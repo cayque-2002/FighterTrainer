@@ -64,6 +64,12 @@ namespace FighterTrainer.Infrastructure.Repositories
 
         }
 
+        public async Task CriarAtleta(Atleta atleta)
+        {
+            await _context.Atletas.AddAsync(atleta);
+            await _context.SaveChangesAsync();
+        }
+
     }
 
 }

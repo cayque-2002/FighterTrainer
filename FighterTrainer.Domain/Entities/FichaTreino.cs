@@ -26,9 +26,7 @@ public class FichaTreino
     public string Descricao { get;  set; } = string.Empty;
     public DateTime DataCriacao { get;  set; }
     public long TurmaId {  get; set; }
-    public Turma Turma { get; set; }    
-
-    protected FichaTreino() { }
+    public Turma Turma { get; set; }   
 
     public FichaTreino(long atletaId, long modalidade, NivelTreino nivel, string descricao, long turmaId)
     {

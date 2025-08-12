@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using FighterTrainer.Application.Interfaces;
 using FighterTrainer.Domain.Entities;
 using FighterTrainer.Domain.Interfaces;
+using FighterTrainer.Domain.Enums;
 using Microsoft.EntityFrameworkCore;
 
 namespace FighterTrainer.Application.Services
@@ -42,6 +43,13 @@ namespace FighterTrainer.Application.Services
             await _usuarioRepository.AdicionarAsync(usuario);
 
             //await _usuarioModalidadeRepository.AdicionarAsync(usuarioModalidade);
+
+            if (dto.Tipo == TipoUsuario.Aluno)
+            {
+                var atleta = new Atleta(usuario.Id);
+
+                await _usuarioRepository.CriarAtleta(atleta);
+            };
 
             // Retorno
             return new UsuarioDto
