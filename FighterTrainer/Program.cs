@@ -42,7 +42,15 @@ builder.Services.AddScoped<CidadeService>();
 builder.Services.AddScoped<IUnidadeRepository, UnidadeRepository>();
 builder.Services.AddScoped<IUnidadeService, UnidadeService>();
 builder.Services.AddScoped<UnidadeService>();
-
+builder.Services.AddScoped<ITurmaRepository, TurmaRepository>();
+builder.Services.AddScoped<ITurmaService, TurmaService>();
+builder.Services.AddScoped<TurmaService>();
+builder.Services.AddScoped<IAtletaRepository, AtletaRepository>();
+builder.Services.AddScoped<IAtletaService, AtletaService>();
+builder.Services.AddScoped<AtletaService>();
+builder.Services.AddScoped<IFichaTreinoRepository, FichaTreinoRepository>();
+builder.Services.AddScoped<IFichaTreinoService, FichaTreinoService>();
+builder.Services.AddScoped<FichaTreinoService>();
 
 
 
