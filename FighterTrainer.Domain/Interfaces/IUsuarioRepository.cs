@@ -18,6 +18,7 @@ namespace FighterTrainer.Domain.Interfaces
         Task<bool> RemoverAsync(long id);
         Task InativarAsync(long id);
         Task CriarAtleta(Atleta atleta);
+        Task CriarTreinador(Treinador treinador);
 
 
     }

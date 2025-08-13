@@ -28,7 +28,7 @@ public class Turma
     [Required(ErrorMessage = "Treinador Responsável é obrigatório.")]
     public long TreinadorResponsavelId {  get; set; }
     public Treinador Treinador { get; set; }
-    public DateTime DataCriacao { get; set; }
+    public DateTime DataCriacao { get; set; } = DateTime.UtcNow;
     public bool Ativo {  get; set; }
 
     [Required(ErrorMessage = "Necessário definir uma quantidade de alunos por Turma.")]

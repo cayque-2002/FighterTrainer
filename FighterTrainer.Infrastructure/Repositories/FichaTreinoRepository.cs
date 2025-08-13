@@ -45,6 +45,16 @@ namespace FighterTrainer.Infrastructure.Repositories
             await _context.SaveChangesAsync();
         }
 
+        public async Task<List<FichaTreino>> ListarAlunosPorTurmaAsync(long turmaId)
+        {
+            return await _context.FichasTreino.Where(x => x.TurmaId == turmaId).ToListAsync();
+        }
+
+        public async Task<List<FichaTreino>> ListarTreinosPorAtleta(long atletaId)
+        {
+            return await _context.FichasTreino.Where(x => x.AtletaId == atletaId).ToListAsync();
+        }
+
     }
 
 }

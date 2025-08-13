@@ -24,7 +24,7 @@ public class FichaTreino
     [Required(ErrorMessage = "Nivel é obrigatório.")]
     public NivelTreino Nivel { get;  set; }
     public string Descricao { get;  set; } = string.Empty;
-    public DateTime DataCriacao { get;  set; }
+    public DateTime DataCriacao { get;  set; } = DateTime.UtcNow;
     public long TurmaId {  get; set; }
     public Turma Turma { get; set; }   
 

@@ -70,6 +70,12 @@ namespace FighterTrainer.Infrastructure.Repositories
             await _context.SaveChangesAsync();
         }
 
+        public async Task CriarTreinador(Treinador treinador)
+        {
+            await _context.Treinadores.AddAsync(treinador);
+            await _context.SaveChangesAsync();
+        }
+
     }
 
 }

@@ -9,11 +9,13 @@ namespace FighterTrainer.Domain.Interfaces
 {
     public interface IFichaTreinoRepository
     {
-        Task AdicionarAsync(FichaTreino atleta);
+        Task AdicionarAsync(FichaTreino fichaTreino);
         Task<List<FichaTreino>> ListarTodasAsync();
-        Task<FichaTreino?> ListarPorId(long atletaId);
-        Task AtualizarAsync(FichaTreino atleta);
-       
+        Task<FichaTreino?> ListarPorId(long fichaTreinoId);
+        Task AtualizarAsync(FichaTreino fichaTreino);
+        Task<List<FichaTreino>> ListarAlunosPorTurmaAsync(long turmaId);
+        Task<List<FichaTreino>> ListarTreinosPorAtleta(long atletaId);
+
     }
 
 }

@@ -37,8 +37,8 @@ public class FichaTreinoController : ControllerBase
     [HttpGet]
     public async Task<IActionResult> Get()
     {
-        var usuarios = await _iFichaTreinoService.ListarTodasAsync();
-        return Ok(usuarios);
+        var fichasTreino = await _iFichaTreinoService.ListarTodasAsync();
+        return Ok(fichasTreino);
     }
 
     [HttpGet("{fichaTreinoId}")]
@@ -65,6 +65,20 @@ public class FichaTreinoController : ControllerBase
         {
             return BadRequest(new { erro = ex.Message });
         }
+    }
+
+    [HttpGet("turma/{turmaId}")]
+    public async Task<IActionResult> GetAlunosPorTurma(long turmaId)
+    {
+        var fichasTreino = await _iFichaTreinoService.ListarAlunosPorTurmaAsync(turmaId);
+        return Ok(fichasTreino);
+    }
+
+    [HttpGet("atleta/{atletaId}")]
+    public async Task<IActionResult> GetTreinosPorAtleta(long atletaId)
+    {
+        var fichasTreino = await _iFichaTreinoService.ListarTreinosPorAtleta(atletaId);
+        return Ok(fichasTreino);
     }
 
 }

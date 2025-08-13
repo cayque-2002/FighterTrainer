@@ -8,6 +8,7 @@ namespace FighterTrainer.Domain.Entities;
 
 public class UsuarioModalidade
 {
+    public long Id { get; set; }
     public long UsuarioId { get; set; }
     public Usuario Usuario { get; set; }
     public long ModalidadeId { get; set; }

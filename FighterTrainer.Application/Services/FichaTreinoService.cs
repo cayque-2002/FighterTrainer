@@ -108,6 +108,35 @@ namespace FighterTrainer.Application.Services
             await _FichaTreinoRepository.AtualizarAsync(fichaTreino);
         }
 
+        public async Task<List<FichaTreinoDto>> ListarAlunosPorTurmaAsync(long turmaId)
+        {
+            var fichaTreino = await _FichaTreinoRepository.ListarAlunosPorTurmaAsync(turmaId);
+            return fichaTreino.Select(ft => new FichaTreinoDto
+            {
+                AtletaId = ft.AtletaId,
+                UsuarioModalidadeId = ft.UsuarioModalidadeId,
+                Nivel = ft.Nivel,
+                Descricao = ft.Descricao,
+                TurmaId = ft.TurmaId
+
+            }).ToList();
+        }
+
+        public async Task<List<FichaTreinoDto>> ListarTreinosPorAtleta(long atletaId)
+        {
+            var fichaTreino = await _FichaTreinoRepository.ListarTreinosPorAtleta(atletaId);
+            return fichaTreino.Select(ft => new FichaTreinoDto
+            {
+                AtletaId = ft.AtletaId,
+                UsuarioModalidadeId = ft.UsuarioModalidadeId,
+                Nivel = ft.Nivel,
+                Descricao = ft.Descricao,
+                TurmaId = ft.TurmaId
+
+            }).ToList();
+        }
+
+
 
     }
 

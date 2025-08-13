@@ -17,6 +17,7 @@ public class Usuario
     public TipoUsuario TipoUsuario { get; set; }
     public ICollection<UsuarioModalidade> Modalidades { get; set; } = new List<UsuarioModalidade>();
     public bool Ativo {  get; set; }
+    public DateTime DataCadastro { get; set; } = DateTime.UtcNow;
 
 
     protected Usuario() { }

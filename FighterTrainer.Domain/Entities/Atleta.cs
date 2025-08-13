@@ -23,6 +23,7 @@ public class Atleta
     public int FocoMental {  get; set; }
     public int Defesa {  get; set; }
     public int LutaEmPe {  get; set; }
+    public DateTime DataCadastro { get; set; } = DateTime.UtcNow;
 
     // Dados do atleta, como peso, faixa, etc (expansível depois)
 

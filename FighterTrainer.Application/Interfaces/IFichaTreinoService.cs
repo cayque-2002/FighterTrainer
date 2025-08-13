@@ -14,6 +14,8 @@ namespace FighterTrainer.Application.Interfaces
         Task<List<FichaTreinoDto>> ListarTodasAsync();
         Task<FichaTreinoDto> ListarPorId(long fichaTreinoId);
         Task AtualizarAsync(FichaTreinoDto dto);
+        Task<List<FichaTreinoDto>> ListarAlunosPorTurmaAsync(long turmaId);
+        Task<List<FichaTreinoDto>> ListarTreinosPorAtleta(long atletaId);
 
     }
 

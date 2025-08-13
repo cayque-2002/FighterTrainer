@@ -17,7 +17,7 @@ public class Unidade
     [Required(ErrorMessage = "Cidade é obrigatória.")]
     public long CidadeId { get; set; }
     public Cidade Cidade { get; set; }
-    public DateTime DataCriacao { get; set; }
+    public DateTime DataCriacao { get; set; } = DateTime.UtcNow;
     public bool Ativo {  get; set; }
 
     public Unidade(string descricao, long cidadeId, DateTime dataCriacao, bool ativo)

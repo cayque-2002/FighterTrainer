@@ -13,6 +13,7 @@ public class Treinador
 
     [Required(ErrorMessage = "Usuario é obrigatório.")]
     public long UsuarioId { get; set; }
+    public DateTime DataCadastro { get; set; } = DateTime.UtcNow;
 
     protected Treinador() { }
     public Treinador(long usuarioId)

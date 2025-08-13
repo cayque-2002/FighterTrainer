@@ -49,6 +49,12 @@ namespace FighterTrainer.Application.Services
                 var atleta = new Atleta(usuario.Id);
 
                 await _usuarioRepository.CriarAtleta(atleta);
+            }
+            if (dto.Tipo == TipoUsuario.Treinador)
+            {
+                var treinador = new Treinador(usuario.Id);
+
+                await _usuarioRepository.CriarTreinador(treinador);
             };
 
             // Retorno

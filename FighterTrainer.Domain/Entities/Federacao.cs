@@ -10,6 +10,7 @@ public class Federacao
 {
     public long Id { get; set; }
     public string Descricao { get; set; }
+    public DateTime DataCadastro { get; set; } = DateTime.UtcNow;
 
     //Por enquanto só nome da federação
 

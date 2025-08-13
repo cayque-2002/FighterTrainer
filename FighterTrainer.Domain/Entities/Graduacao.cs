@@ -15,6 +15,7 @@ public class Graduacao
     public int? Grau { get; set; }
     public long FederacaoId { get; set; }
     public Federacao Federacao { get; set; }
+    public DateTime DataCadastro { get; set; } = DateTime.UtcNow;
 
     //Exemplo
     //ModalidadeId - 1 (Jiu jitsu)
