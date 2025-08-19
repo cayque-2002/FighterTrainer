@@ -9,13 +9,13 @@ namespace FighterTrainer.Domain.Entities;
 
 public class Atleta
 {
-    public long Id { get; private set; }
+    public long Id { get; set; }
 
     [Required(ErrorMessage = "Usuario é obrigatório.")]
     public long UsuarioId { get; set; }
     public decimal Peso {  get; set; } = decimal.Zero;
     public int Altura { get; set; } = 0;
-    public string Apelido { get; set; }
+    public string ? Apelido { get; set; } = string.Empty;
     public int Resistencia {  get; set; }
     public int Agilidade {  get; set; }
     public int Solo {  get; set; }

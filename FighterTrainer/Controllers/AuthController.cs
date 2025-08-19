@@ -28,8 +28,18 @@ public class AuthController : ControllerBase
     public IActionResult Login(LoginDto dto)
     {
         var usuario = _context.Usuarios.FirstOrDefault(x => x.Email == dto.Email);
-        if (usuario == null || !usuario.VerificarSenha(dto.Senha))
+        
+        if (usuario == null) 
+        {
             return Unauthorized("Credenciais inválidas");
+        }
+
+        var validaSenha = usuario.VerificarSenha(dto.Senha);
+        if (validaSenha == false) 
+        {
+            return Unauthorized("Credenciais inválidas");
+        }
+            
 
         var token = _tokenService.GerarToken(usuario);
 

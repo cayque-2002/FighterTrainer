@@ -8,6 +8,7 @@ using FighterTrainer.Domain.Entities;
 using FighterTrainer.Domain.Interfaces;
 using FighterTrainer.Domain.Enums;
 using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 
 namespace FighterTrainer.Application.Services
 {
@@ -36,10 +37,10 @@ namespace FighterTrainer.Application.Services
                 throw new Exception("E-mail já cadastrado");
 
             // Hash da senha
-            var senhaHash = _passwordHasher.Hash(dto.Senha);
+            var senhaHash = BCrypt.Net.BCrypt.HashPassword(dto.Senha);
 
             // Cria usuário
-            var usuario = new Usuario(dto.Nome, dto.Email, senhaHash, dto.Tipo);
+            var usuario = new Usuario(dto.Nome, dto.Email, senhaHash, dto.Tipo, false);
             await _usuarioRepository.AdicionarAsync(usuario);
 
             //await _usuarioModalidadeRepository.AdicionarAsync(usuarioModalidade);
@@ -63,7 +64,8 @@ namespace FighterTrainer.Application.Services
                 Id = usuario.Id,
                 Nome = usuario.Nome,
                 Email = usuario.Email,
-                Tipo = usuario.TipoUsuario
+                Tipo = usuario.TipoUsuario,
+                Ativo = true
             };
         }
 
@@ -79,10 +81,10 @@ namespace FighterTrainer.Application.Services
                 return new UsuarioDto
                 {
                     Id = usuario.Id,
-                    Ativo = usuario.Ativo,
                     Email = usuario.Email,
                     Nome = usuario.Nome,
-                    Tipo = usuario.TipoUsuario
+                    Tipo = usuario.TipoUsuario,
+                    Ativo = usuario.Ativo
                 };
             }
             
@@ -116,7 +118,8 @@ namespace FighterTrainer.Application.Services
                 Id = u.Id,
                 Nome = u.Nome,
                 Email = u.Email,
-                Tipo = u.TipoUsuario
+                Tipo = u.TipoUsuario,
+                Ativo = u.Ativo
             }).ToList();
         }
         public async Task AtualizarAsync(UsuarioDto dto)
@@ -126,9 +129,16 @@ namespace FighterTrainer.Application.Services
             if (usuario == null)
                 throw new Exception("Usuário não encontrado.");
 
-            usuario.AlterarNome(dto.Nome);
-            usuario.AlterarEmail(dto.Email);
-            usuario.AlterarTipoUsuario(dto.Tipo);
+            var usuarioAtualizado = new Usuario(dto.Nome,dto.Email,usuario.SenhaHash,dto.Tipo,dto.Ativo);
+
+
+            //await _usuarioRepository.AtualizarAsync(usuarioAtualizado);
+
+
+            usuario.AtualizarUsuario(usuarioAtualizado);
+            //usuario.AlterarNome(dto.Nome);
+            //usuario.AlterarEmail(dto.Email);
+            //usuario.AlterarTipoUsuario(dto.Tipo);
 
             await _usuarioRepository.AtualizarAsync(usuario);
         }

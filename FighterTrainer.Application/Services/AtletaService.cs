@@ -54,8 +54,9 @@ namespace FighterTrainer.Application.Services
             {
                 return new AtletaDto
                 {
+                    Id = atleta.Id,
                     UsuarioId = atleta.UsuarioId,
-                    Apelido = atleta.Apelido,
+                    Apelido = atleta.Apelido ?? string.Empty,
                     Altura = atleta.Altura,
                     Peso = atleta.Peso,
                     Agilidade = atleta.Agilidade,
@@ -75,8 +76,9 @@ namespace FighterTrainer.Application.Services
             var atleta = await _AtletaRepository.ListarTodasAsync();
             return atleta.Select(a => new AtletaDto
             {
+                Id = a.Id,
                 UsuarioId = a.UsuarioId,
-                Apelido = a.Apelido,
+                Apelido = a.Apelido ?? string.Empty,
                 Altura = a.Altura,
                 Peso = a.Peso,
                 Agilidade = a.Agilidade,

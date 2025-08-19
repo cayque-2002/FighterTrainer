@@ -20,14 +20,13 @@ public class Usuario
     public DateTime DataCadastro { get; set; } = DateTime.UtcNow;
 
 
-    protected Usuario() { }
-
-    public Usuario(string nome, string email, string senhaHash, TipoUsuario tipoUsuario)
+    public Usuario(string nome, string email, string senhaHash, TipoUsuario tipoUsuario, bool ativo)
     {
         Nome = nome;
         Email = email;
-        SenhaHash = BCrypt.Net.BCrypt.HashPassword(senhaHash); 
+        SenhaHash = senhaHash; 
         TipoUsuario = tipoUsuario;
+        Ativo = ativo;
     }
 
     public bool VerificarSenha(string senha) =>
@@ -53,6 +52,20 @@ public class Usuario
     {
         TipoUsuario = tipo;
     }
+    public void AtualizarUsuario(Usuario usuario)
+    {
+        if (string.IsNullOrWhiteSpace(usuario.Email))
+            throw new ArgumentException("Email inválido.");
+        if (string.IsNullOrWhiteSpace(usuario.Nome))
+            throw new ArgumentException("Nome inválido.");
+
+        Nome = usuario.Nome;
+        Email = usuario.Email;
+        TipoUsuario = usuario.TipoUsuario;
+        Ativo = usuario.Ativo;
+    }
+
+
 
     public void Inativar() => Ativo = false;
 
