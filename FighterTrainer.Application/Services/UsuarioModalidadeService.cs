@@ -32,8 +32,8 @@ namespace FighterTrainer.Application.Services
             // Verifica duplicidade de e-mail
             var vinculoExistente = await _usuarioModalidadeRepository.ObterPorUsuarioIdAsync(dto.UsuarioId);
 
-            vinculoExistente.Where(x => x.ModalidadeId == dto.ModalidadeId);
-            if (vinculoExistente is not null)
+            vinculoExistente.Where(x => x.ModalidadeId == dto.ModalidadeId).FirstOrDefault();
+            if (vinculoExistente.Count() > 0)
                 throw new Exception("Aluno já cadastrado nessa modalidade!");
 
             // Cria usuário
@@ -42,25 +42,46 @@ namespace FighterTrainer.Application.Services
 
         }
 
-        public async Task<IEnumerable<UsuarioModalidade>> ListarPorUsuario(long usuarioId)
+        public async Task<List<UsuarioModalidade>> ListarPorUsuario(long usuarioId)
         {
             var usuarioModalidades = await _usuarioModalidadeRepository.ObterPorUsuarioIdAsync(usuarioId);
             return usuarioModalidades;
                 
         }
 
-        public async Task InativarAsync(long usuarioId, long modalidadeId)
+        public async Task<List<UsuarioModalidade>> ListarPorId(long id)
         {
-            var usuarioModalidade = await _usuarioModalidadeRepository.ObterPorUsuarioIdAsync(usuarioId);
+            var usuarioModalidades = await _usuarioModalidadeRepository.ObterPorIdAsync(id);
+            return usuarioModalidades;
 
-            var validaVinculo = usuarioModalidade.Where(x => x.ModalidadeId == modalidadeId).First();
+        }
+
+        public async Task InativarAsync(long id)
+        {
+            var usuarioModalidade = await _usuarioModalidadeRepository.ObterPorIdAsync(id);
+
+            var validaVinculo = usuarioModalidade.First();
            
                 if (validaVinculo == null)
                     throw new Exception("Modalidade não encontrada");
 
             validaVinculo.Inativar();
-            await _usuarioModalidadeRepository.InativarAsync(usuarioId, modalidadeId); 
+            await _usuarioModalidadeRepository.InativarAsync(id); 
              
+        }
+
+        public async Task AtivarAsync(long id)
+        {
+            var usuarioModalidade = await _usuarioModalidadeRepository.ObterPorIdAsync(id);
+
+            var validaVinculo = usuarioModalidade.First();
+
+            if (validaVinculo == null)
+                throw new Exception("Modalidade não encontrada");
+
+            validaVinculo.Ativar();
+            await _usuarioModalidadeRepository.AtivarAsync(id);
+
         }
 
     }

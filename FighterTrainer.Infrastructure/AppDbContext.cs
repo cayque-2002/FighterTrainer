@@ -24,23 +24,30 @@ public class AppDbContext : DbContext
     {
         base.OnModelCreating(modelBuilder);
 
-        modelBuilder.Entity<UsuarioModalidade>()
-            .HasKey(um => new { um.UsuarioId, um.ModalidadeId });
+        modelBuilder.Entity<UsuarioModalidade>(entity =>
+        {
+            entity.HasKey(e => e.Id);
 
-        modelBuilder.Entity<UsuarioModalidade>()
-            .HasOne(um => um.Usuario)
-            .WithMany(u => u.Modalidades)
-            .HasForeignKey(um => um.UsuarioId);
+            entity.Property(e => e.Id)
+                .ValueGeneratedOnAdd();
 
-        modelBuilder.Entity<UsuarioModalidade>()
-            .HasOne(um => um.Modalidade)
-            .WithMany(m => m.Usuarios)
-            .HasForeignKey(um => um.ModalidadeId);
+            entity.HasOne(e => e.Usuario)
+                .WithMany(u => u.UsuarioModalidades)
+                .HasForeignKey(e => e.UsuarioId)
+                .OnDelete(DeleteBehavior.Restrict);
 
-        modelBuilder.Entity<UsuarioModalidade>()
-            .HasOne(um => um.Graduacao)
-            .WithMany()
-            .HasForeignKey(um => um.GraduacaoId);
+            entity.HasOne(e => e.Modalidade)
+                .WithMany()
+                .HasForeignKey(e => e.ModalidadeId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            entity.HasOne(e => e.Graduacao)
+                .WithMany()
+                .HasForeignKey(e => e.GraduacaoId)
+                .OnDelete(DeleteBehavior.Restrict);
+        });
+
+
     }
 
 

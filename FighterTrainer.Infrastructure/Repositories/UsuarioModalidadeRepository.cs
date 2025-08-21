@@ -23,19 +23,35 @@ public class UsuarioModalidadeRepository : IUsuarioModalidadeRepository
     public async Task<List<UsuarioModalidade>> ObterPorUsuarioIdAsync(long usuarioId)
     {
         return await _context.UsuarioModalidade
-            .Include(um => um.Modalidade)
-            .Include(um => um.Graduacao)
-            .Include(um => um.DataInicio)
-            .Include(um => um.Ativo)
+            //.Include(um => um.ModalidadeId)
+            //.Include(um => um.GraduacaoId)
+            //.Include(um => um.DataInicio)
+            //.Include(um => um.Ativo)
             .Where(um => um.UsuarioId == usuarioId)
             .ToListAsync();
     }
 
-    public async Task InativarAsync(long usuarioId, long modalidadeId)
+    public async Task<List<UsuarioModalidade>> ObterPorIdAsync(long id)
     {
-        var usuario =  _context.UsuarioModalidade.Where(x=> x.UsuarioId == usuarioId && x.ModalidadeId == modalidadeId).First();
+        return await _context.UsuarioModalidade
+            .Where(um => um.Id == id)
+            .ToListAsync();
+    }
 
-        usuario.Inativar();
+    public async Task InativarAsync(long id)
+    {
+        var usuarioModalidade =  _context.UsuarioModalidade.Where(x=> x.Id == id).First();
+
+        usuarioModalidade.Inativar();
+        await _context.SaveChangesAsync();
+
+    }
+
+    public async Task AtivarAsync(long id)
+    {
+        var usuarioModalidade = _context.UsuarioModalidade.Where(x => x.Id == id).First();
+
+        usuarioModalidade.Ativar();
         await _context.SaveChangesAsync();
 
     }

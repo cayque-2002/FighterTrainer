@@ -15,9 +15,10 @@ public class Usuario
     public string Email { get; set; } = string.Empty;
     public string SenhaHash { get; set; } = string.Empty;
     public TipoUsuario TipoUsuario { get; set; }
-    public ICollection<UsuarioModalidade> Modalidades { get; set; } = new List<UsuarioModalidade>();
     public bool Ativo {  get; set; }
     public DateTime DataCadastro { get; set; } = DateTime.UtcNow;
+
+    public ICollection<UsuarioModalidade> UsuarioModalidades { get; private set; } = new List<UsuarioModalidade>();
 
 
     public Usuario(string nome, string email, string senhaHash, TipoUsuario tipoUsuario, bool ativo)
