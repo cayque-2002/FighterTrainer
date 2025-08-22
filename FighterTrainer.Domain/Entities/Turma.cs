@@ -17,7 +17,6 @@ public class Turma
 
     [Required(ErrorMessage = "Unidade é obrigatória.")]
     public long UnidadeId { get; private set; }
-    public Unidade Unidade { get; set; }
 
     [Required(ErrorMessage = "Horario Inicio é obrigatório.")]
     public DateTime HoraInicioAula {  get; set; }
@@ -27,12 +26,17 @@ public class Turma
 
     [Required(ErrorMessage = "Treinador Responsável é obrigatório.")]
     public long TreinadorResponsavelId {  get; set; }
-    public Treinador Treinador { get; set; }
     public DateTime DataCriacao { get; set; } = DateTime.UtcNow;
     public bool Ativo {  get; set; }
 
     [Required(ErrorMessage = "Necessário definir uma quantidade de alunos por Turma.")]
     public int LimiteAlunos { get; set; }
+
+
+    //navegações
+    public Unidade Unidade { get; set; }
+    public Treinador Treinador { get; set; }
+
 
     public Turma(long unidadeId, string descricao, DateTime horaInicioAula, DateTime horaFimAula, long treinadorResponsavelId, DateTime dataCriacao, bool ativo, int limiteAlunos)
     {

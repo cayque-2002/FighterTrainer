@@ -48,6 +48,40 @@ public class AppDbContext : DbContext
         });
 
 
+        modelBuilder.Entity<Turma>(entity =>
+        {
+            entity.HasKey(e => e.Id);
+
+            entity.Property(e => e.Id)
+                .ValueGeneratedOnAdd();
+
+            entity.HasOne(e => e.Unidade)
+                .WithMany()
+                .HasForeignKey(e => e.UnidadeId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            entity.HasOne(e => e.Treinador)
+                .WithMany()
+                .HasForeignKey(e => e.TreinadorResponsavelId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+        });
+
+        modelBuilder.Entity<Treinador>(entity =>
+        {
+            entity.HasKey(e => e.Id);
+
+            entity.Property(e => e.Id)
+                .ValueGeneratedOnAdd();
+
+            entity.HasOne(e => e.Usuario)
+                .WithMany()
+                .HasForeignKey(e => e.UsuarioId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+        });
+
+
     }
 
 

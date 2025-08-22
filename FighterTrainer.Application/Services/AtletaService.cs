@@ -96,7 +96,20 @@ namespace FighterTrainer.Application.Services
             var atleta = await _AtletaRepository.ListarPorId(dto.Id);
 
             if (atleta == null)
+            {
                 throw new Exception("Turma não encontrada.");
+            }
+
+            atleta.Peso = dto.Peso;
+            atleta.Altura = dto.Altura;
+            atleta.Apelido = dto.Apelido;
+            atleta.Resistencia = dto.Resistencia;
+            atleta.Agilidade = dto.Agilidade;
+            atleta.Solo = dto.Solo;
+            atleta.Wrestling = dto.Wrestling;
+            atleta.FocoMental = dto.FocoMental;
+            atleta.Defesa = dto.Defesa;
+            atleta.LutaEmPe = dto.LutaEmPe;
 
             await _AtletaRepository.AtualizarAsync(atleta);
         }

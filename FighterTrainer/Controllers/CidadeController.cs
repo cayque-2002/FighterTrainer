@@ -21,9 +21,9 @@ public class CidadeController : ControllerBase
     }
 
     [HttpGet("{cidadeId}")]
-    public async Task<IActionResult> GetPorId(long graduacaoId)
+    public async Task<IActionResult> GetPorId(long cidadeId)
     {
-        var lista = await _cidadeService.ListarPorId(graduacaoId);
+        var lista = await _cidadeService.ListarPorId(cidadeId);
         return Ok(lista);
     }
 

@@ -51,6 +51,9 @@ builder.Services.AddScoped<AtletaService>();
 builder.Services.AddScoped<IFichaTreinoRepository, FichaTreinoRepository>();
 builder.Services.AddScoped<IFichaTreinoService, FichaTreinoService>();
 builder.Services.AddScoped<FichaTreinoService>();
+builder.Services.AddScoped<ITreinadorRepository, TreinadorRepository>();
+builder.Services.AddScoped<ITreinadorService, TreinadorService>();
+builder.Services.AddScoped<TreinadorService>();
 
 
 
