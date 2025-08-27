@@ -65,6 +65,12 @@ public class AppDbContext : DbContext
                 .HasForeignKey(e => e.TreinadorResponsavelId)
                 .OnDelete(DeleteBehavior.Restrict);
 
+            entity.Property(e => e.HoraInicioAula)
+                 .HasColumnType("time");
+
+            entity.Property(e => e.HoraFimAula)
+                  .HasColumnType("time");
+
         });
 
         modelBuilder.Entity<Treinador>(entity =>
@@ -82,7 +88,18 @@ public class AppDbContext : DbContext
         });
 
 
+        modelBuilder.Entity<FichaTreino>(entity =>
+        {
+            entity.HasKey(e => e.Id);
+
+            entity.Property(e => e.Id)
+                .ValueGeneratedOnAdd();
+
+        });
+
     }
+
+
 
 
 }

@@ -12,10 +12,10 @@ public class TurmaDto
     public long UnidadeId { get; set; }
 
     [Required(ErrorMessage = "Horario Inicio é obrigatório.")]
-    public DateTime HoraInicioAula { get; set; }
+    public TimeOnly HoraInicioAula { get; set; }
 
     [Required(ErrorMessage = "Horario Fim é obrigatório.")]
-    public DateTime HoraFimAula { get; set; }
+    public TimeOnly HoraFimAula { get; set; }
 
     [Required(ErrorMessage = "Treinador Responsável é obrigatório.")]
     public long TreinadorResponsavelId { get; set; }

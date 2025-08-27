@@ -1,3 +1,4 @@
+using FighterTrainer.API.Converters;
 using FighterTrainer.Application.Interfaces;
 using FighterTrainer.Application.Services;
 using FighterTrainer.Domain.Entities;
@@ -15,6 +16,12 @@ using Npgsql.EntityFrameworkCore;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.Converters.Add(new TimeOnlyJsonConverter());
+    });
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

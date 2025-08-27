@@ -19,10 +19,10 @@ public class Turma
     public long UnidadeId { get; private set; }
 
     [Required(ErrorMessage = "Horario Inicio é obrigatório.")]
-    public DateTime HoraInicioAula {  get; set; }
+    public TimeOnly HoraInicioAula {  get; set; }
 
     [Required(ErrorMessage = "Horario Fim é obrigatório.")]
-    public DateTime HoraFimAula {  get; set; }
+    public TimeOnly HoraFimAula {  get; set; }
 
     [Required(ErrorMessage = "Treinador Responsável é obrigatório.")]
     public long TreinadorResponsavelId {  get; set; }
@@ -38,7 +38,7 @@ public class Turma
     public Treinador Treinador { get; set; }
 
 
-    public Turma(long unidadeId, string descricao, DateTime horaInicioAula, DateTime horaFimAula, long treinadorResponsavelId, DateTime dataCriacao, bool ativo, int limiteAlunos)
+    public Turma(long unidadeId, string descricao, TimeOnly horaInicioAula, TimeOnly horaFimAula, long treinadorResponsavelId, DateTime dataCriacao, bool ativo, int limiteAlunos)
     {
         UnidadeId = unidadeId;
         Descricao = descricao;

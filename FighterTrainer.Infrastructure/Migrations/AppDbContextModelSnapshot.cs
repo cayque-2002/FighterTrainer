@@ -242,10 +242,10 @@ namespace FighterTrainer.Infrastructure.Migrations
                         .HasColumnType("text");
 
                     b.Property<DateTime>("HoraFimAula")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp withot time zone");
 
                     b.Property<DateTime>("HoraInicioAula")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<int>("LimiteAlunos")
                         .HasColumnType("integer");
