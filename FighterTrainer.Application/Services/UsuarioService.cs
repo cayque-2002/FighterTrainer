@@ -1,14 +1,15 @@
-﻿using System;
+﻿using FighterTrainer.Application.Interfaces;
+using FighterTrainer.Domain.Entities;
+using FighterTrainer.Domain.Enums;
+using FighterTrainer.Domain.Exceptions;
+using FighterTrainer.Domain.Interfaces;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using FighterTrainer.Application.Interfaces;
-using FighterTrainer.Domain.Entities;
-using FighterTrainer.Domain.Interfaces;
-using FighterTrainer.Domain.Enums;
-using Microsoft.EntityFrameworkCore;
-using System.ComponentModel.DataAnnotations;
 
 namespace FighterTrainer.Application.Services
 {
@@ -34,7 +35,7 @@ namespace FighterTrainer.Application.Services
             // Verifica duplicidade de e-mail
             var usuarioExistente = await _usuarioRepository.ObterPorEmailAsync(dto.Email);
             if (usuarioExistente is not null)
-                throw new Exception("E-mail já cadastrado");
+                throw new BusinessRuleException("E-mail já cadastrado");
 
             // Hash da senha
             var senhaHash = BCrypt.Net.BCrypt.HashPassword(dto.Senha);
@@ -74,7 +75,7 @@ namespace FighterTrainer.Application.Services
             var usuario = await _usuarioRepository.ObterPorIdAsync(usuarioId);
             if (usuario == null)
             {
-                throw new Exception("Usuário não encontrado.");
+                throw new NotFoundException("Usuário não encontrado.");
             }
             else
             {
@@ -98,7 +99,7 @@ namespace FighterTrainer.Application.Services
             {
                 if (usuarioModalidade.ModalidadeId == modalidadeId && usuarioModalidade.GraduacaoId == graduacaoId)
                 {
-                    throw new Exception("Vínculo usuarioModalidade já existe");
+                    throw new BusinessRuleException("Vínculo usuarioModalidade já existe");
                 }
                 else 
                 {
@@ -127,7 +128,7 @@ namespace FighterTrainer.Application.Services
             var usuario = await _usuarioRepository.ObterPorIdAsync(dto.Id);
 
             if (usuario == null)
-                throw new Exception("Usuário não encontrado.");
+                throw new NotFoundException("Usuário não encontrado.");
 
             var usuarioAtualizado = new Usuario(dto.Nome,dto.Email,usuario.SenhaHash,dto.Tipo,dto.Ativo);
 
@@ -156,7 +157,7 @@ namespace FighterTrainer.Application.Services
         {
             var usuario = await _usuarioRepository.ObterPorIdAsync(id);
             if (usuario == null)
-                throw new Exception("Usuário não encontrado");
+                throw new NotFoundException("Usuário não encontrado");
 
             usuario.Inativar();
             await _usuarioRepository.InativarAsync(id);

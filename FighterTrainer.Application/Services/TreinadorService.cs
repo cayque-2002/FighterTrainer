@@ -8,6 +8,7 @@ using FighterTrainer.Domain.Entities;
 using FighterTrainer.Domain.Interfaces;
 using FighterTrainer.Domain.Enums;
 using Microsoft.EntityFrameworkCore;
+using FighterTrainer.Domain.Exceptions;
 
 namespace FighterTrainer.Application.Services
 {
@@ -49,7 +50,7 @@ namespace FighterTrainer.Application.Services
             var treinador = await _TreinadorRepository.ListarPorId(id);
             if (treinador == null)
             {
-                throw new Exception("Treinador não encontrado.");
+                throw new NotFoundException("Treinador não encontrado.");
             }
             else
             {

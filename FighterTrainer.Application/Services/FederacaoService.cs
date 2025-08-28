@@ -1,11 +1,12 @@
-﻿using System;
+﻿using FighterTrainer.Application.Interfaces;
+using FighterTrainer.Domain.Entities;
+using FighterTrainer.Domain.Exceptions;
+using FighterTrainer.Domain.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using FighterTrainer.Application.Interfaces;
-using FighterTrainer.Domain.Entities;
-using FighterTrainer.Domain.Interfaces;
 
 namespace FighterTrainer.Application.Services
 {
@@ -34,7 +35,7 @@ namespace FighterTrainer.Application.Services
             var federacao = await _repository.ObterPorIdAsync(federacaoId);
             if (federacao == null)
             {
-                throw new Exception("Federação não encontrada.");
+                throw new NotFoundException("Federação não encontrada.");
             }
             else
             {
@@ -66,7 +67,7 @@ namespace FighterTrainer.Application.Services
             var federacao = await _repository.ObterPorIdAsync(dto.Id);
 
             if (federacao == null)
-                throw new Exception("Federação não encontrada");
+                throw new NotFoundException("Federação não encontrada");
 
             federacao.Atualizar(dto.Descricao); // você precisa ter esse método na entidade
 

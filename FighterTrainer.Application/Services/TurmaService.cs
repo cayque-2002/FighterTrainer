@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using FighterTrainer.Application.Interfaces;
 using FighterTrainer.Domain.Entities;
+using FighterTrainer.Domain.Exceptions;
 using FighterTrainer.Domain.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
@@ -31,7 +32,7 @@ namespace FighterTrainer.Application.Services
 
             if (treinador == null) 
             {
-                throw new Exception("Treinador não cadastrado.");
+                throw new NotFoundException("Treinador não cadastrado.");
             };
 
             return new TurmaDto
@@ -52,7 +53,7 @@ namespace FighterTrainer.Application.Services
             var turma = await _TurmaRepository.ListarPorId(turmaId);
             if (turma == null)
             {
-                throw new Exception("Usuário não encontrado.");
+                throw new NotFoundException("Usuário não encontrado.");
             }
             else
             {
@@ -95,7 +96,7 @@ namespace FighterTrainer.Application.Services
             var turma = await _TurmaRepository.ListarPorId(dto.Id);
 
             if (turma == null)
-                throw new Exception("Turma não encontrada.");
+                throw new NotFoundException("Turma não encontrada.");
 
             turma.Ativo = dto.Ativo;
             turma.HoraInicioAula = dto.HoraInicioAula;
@@ -110,7 +111,7 @@ namespace FighterTrainer.Application.Services
 
                 if (treinador == null)
                 {
-                    throw new Exception("Treinador não cadastrado.");
+                    throw new NotFoundException("Treinador não cadastrado.");
                 };
 
                 turma.TreinadorResponsavelId = dto.TreinadorResponsavelId;
@@ -133,7 +134,7 @@ namespace FighterTrainer.Application.Services
         {
             var turma = await _TurmaRepository.ListarPorId(id);
             if (turma == null)
-                throw new Exception("Usuário não encontrado");
+                throw new NotFoundException("Usuário não encontrado");
 
             turma.Inativar();
             await _TurmaRepository.InativarAsync(id);

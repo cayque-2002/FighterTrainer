@@ -1,13 +1,14 @@
-﻿using System;
+﻿using FighterTrainer.Application.Interfaces;
+using FighterTrainer.Domain.Entities;
+using FighterTrainer.Domain.Enums;
+using FighterTrainer.Domain.Exceptions;
+using FighterTrainer.Domain.Interfaces;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using FighterTrainer.Application.Interfaces;
-using FighterTrainer.Domain.Entities;
-using FighterTrainer.Domain.Interfaces;
-using FighterTrainer.Domain.Enums;
-using Microsoft.EntityFrameworkCore;
 
 namespace FighterTrainer.Application.Services
 {
@@ -47,27 +48,27 @@ namespace FighterTrainer.Application.Services
 
                     var atleta = await _AtletaRepository.ListarPorId(dto.AtletaId);
                     if (atleta == null)
-                        throw new Exception("Atleta não encontrado.");
+                        throw new NotFoundException("Atleta não encontrado.");
 
                     var usuarioModalidade = await _UsuarioModalidadeRepository.ObterPorIdAsync(dto.UsuarioModalidadeId);
                     if (usuarioModalidade == null)
-                        throw new Exception("UsuárioModalidade não encontrado.");
+                        throw new NotFoundException("UsuárioModalidade não encontrado.");
 
                     // valida se o atleta realmente pertence ao usuário da modalidade
                     var validaVinculo = usuarioModalidade.Where(x => x.Id == dto.UsuarioModalidadeId).Select(x => x.UsuarioId).FirstOrDefault();
 
                     if ( validaVinculo != atleta.UsuarioId)
-                        throw new Exception("O atleta não pertence ao usuário informado na modalidade.");
+                        throw new BusinessRuleException("O atleta não pertence ao usuário informado na modalidade.");
 
 
                     if (validaFicha.Where(x => x.UsuarioModalidadeId == dto.UsuarioModalidadeId).Count() > 1) 
                     {
-                        throw new Exception("Atleta ja tem ficha de treino para esta modalidade.");
+                        throw new BusinessRuleException("Atleta ja tem ficha de treino para esta modalidade.");
                     }
 
                     if (validaFicha.Where(x => x.TurmaId == dto.TurmaId).Count() > 1)
                     {
-                        throw new Exception("Atleta ja tem ficha de treino para esta Turma.");
+                        throw new BusinessRuleException("Atleta ja tem ficha de treino para esta Turma.");
                     }
 
                     var fichaTreino = new FichaTreino(dto.AtletaId, dto.UsuarioModalidadeId, dto.Nivel, dto.Descricao, dto.TurmaId);
@@ -85,13 +86,13 @@ namespace FighterTrainer.Application.Services
                 else 
                 {
 
-                    throw new Exception("Turma não tem mais vagas abertas.");
+                    throw new NotFoundException("Turma não tem mais vagas abertas.");
 
                 }
 
             }
 
-             throw new Exception("Turma não tem vagas abertas.");
+             throw new BusinessRuleException("Turma não tem vagas abertas.");
 
         }
 
@@ -100,7 +101,7 @@ namespace FighterTrainer.Application.Services
             var fichaTreino = await _FichaTreinoRepository.ListarPorId(fichaTreinoId);
             if (fichaTreino == null)
             {
-                throw new Exception("Ficha não encontrada.");
+                throw new NotFoundException("Ficha não encontrada.");
             }
             else
             {
@@ -137,7 +138,7 @@ namespace FighterTrainer.Application.Services
 
             if (fichaTreino == null)
             {
-                throw new Exception("Ficha não encontrada.");
+                throw new NotFoundException("Ficha não encontrada.");
             }
 
             await _FichaTreinoRepository.AtualizarAsync(fichaTreino);
@@ -161,6 +162,11 @@ namespace FighterTrainer.Application.Services
         public async Task<List<FichaTreinoDto>> ListarTreinosPorAtleta(long atletaId)
         {
             var fichaTreino = await _FichaTreinoRepository.ListarTreinosPorAtleta(atletaId);
+
+            if (fichaTreino == null) 
+            {
+                throw new BusinessRuleException("Atleta não possui ficha treino.");
+            }
             return fichaTreino.Select(ft => new FichaTreinoDto
             {   
                 Id = ft.Id,

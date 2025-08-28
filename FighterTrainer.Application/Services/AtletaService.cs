@@ -8,6 +8,7 @@ using FighterTrainer.Domain.Entities;
 using FighterTrainer.Domain.Interfaces;
 using FighterTrainer.Domain.Enums;
 using Microsoft.EntityFrameworkCore;
+using FighterTrainer.Domain.Exceptions;
 
 namespace FighterTrainer.Application.Services
 {
@@ -48,7 +49,7 @@ namespace FighterTrainer.Application.Services
             var atleta = await _AtletaRepository.ListarPorId(atletaId);
             if (atleta == null)
             {
-                throw new Exception("Usuário não encontrado.");
+                throw new NotFoundException("Usuário não encontrado.");
             }
             else
             {
@@ -97,7 +98,7 @@ namespace FighterTrainer.Application.Services
 
             if (atleta == null)
             {
-                throw new Exception("Turma não encontrada.");
+                throw new NotFoundException("Turma não encontrada.");
             }
 
             atleta.Peso = dto.Peso;

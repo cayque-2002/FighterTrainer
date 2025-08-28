@@ -1,12 +1,13 @@
-﻿using System;
+﻿using FighterTrainer.Application.Interfaces;
+using FighterTrainer.Domain.Entities;
+using FighterTrainer.Domain.Exceptions;
+using FighterTrainer.Domain.Interfaces;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using FighterTrainer.Application.Interfaces;
-using FighterTrainer.Domain.Entities;
-using FighterTrainer.Domain.Interfaces;
-using Microsoft.EntityFrameworkCore;
 
 namespace FighterTrainer.Application.Services
 {
@@ -34,7 +35,7 @@ namespace FighterTrainer.Application.Services
 
             vinculoExistente.Where(x => x.ModalidadeId == dto.ModalidadeId).FirstOrDefault();
             if (vinculoExistente.Count() > 0)
-                throw new Exception("Aluno já cadastrado nessa modalidade!");
+                throw new BusinessRuleException("Aluno já cadastrado nessa modalidade!");
 
             // Cria usuário
             var usuarioModalidade = new UsuarioModalidade(dto.UsuarioId, dto.ModalidadeId, dto.GraduacaoId, dto.DataInicio, dto.Ativo);
@@ -63,7 +64,7 @@ namespace FighterTrainer.Application.Services
             var validaVinculo = usuarioModalidade.First();
            
                 if (validaVinculo == null)
-                    throw new Exception("Modalidade não encontrada");
+                    throw new NotFoundException("Modalidade não encontrada");
 
             validaVinculo.Inativar();
             await _usuarioModalidadeRepository.InativarAsync(id); 
@@ -77,7 +78,7 @@ namespace FighterTrainer.Application.Services
             var validaVinculo = usuarioModalidade.First();
 
             if (validaVinculo == null)
-                throw new Exception("Modalidade não encontrada");
+                throw new NotFoundException("Modalidade não encontrada");
 
             validaVinculo.Ativar();
             await _usuarioModalidadeRepository.AtivarAsync(id);

@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using FighterTrainer.Application.Interfaces;
 using FighterTrainer.Domain.Entities;
+using FighterTrainer.Domain.Exceptions;
 using FighterTrainer.Domain.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
@@ -39,7 +40,7 @@ namespace FighterTrainer.Application.Services
             var unidade = await _unidadeRepository.ListarPorId(unidadeId);
             if (unidade == null)
             {
-                throw new Exception("Usuário não encontrado.");
+                throw new NotFoundException("Usuário não encontrado.");
             }
             else
             {
@@ -72,7 +73,7 @@ namespace FighterTrainer.Application.Services
             var unidade = await _unidadeRepository.ListarPorId(dto.Id);
 
             if (unidade == null)
-                throw new Exception("Unidade não encontrada.");
+                throw new NotFoundException("Unidade não encontrada.");
 
             await _unidadeRepository.AtualizarAsync(unidade);
         }
@@ -90,7 +91,7 @@ namespace FighterTrainer.Application.Services
         {
             var unidade = await _unidadeRepository.ListarPorId(id);
             if (unidade == null)
-                throw new Exception("Usuário não encontrado");
+                throw new NotFoundException("Usuário não encontrado");
 
             unidade.Inativar();
             await _unidadeRepository.InativarAsync(id);

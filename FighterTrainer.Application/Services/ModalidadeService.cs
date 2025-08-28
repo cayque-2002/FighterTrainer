@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using FighterTrainer.Application.Interfaces;
 using FighterTrainer.Domain.Entities;
+using FighterTrainer.Domain.Exceptions;
 using FighterTrainer.Domain.Interfaces;
 
 namespace FighterTrainer.Application.Services
@@ -33,7 +34,7 @@ namespace FighterTrainer.Application.Services
             var modalidade = await _repository.ObterPorIdAsync(modalidadeId);
             if (modalidade == null)
             {
-                throw new Exception("Modalidade não encontrada.");
+                throw new NotFoundException("Modalidade não encontrada.");
             }
             else
             {
@@ -63,7 +64,7 @@ namespace FighterTrainer.Application.Services
             var modalidade = await _repository.ObterPorIdAsync(dto.Id);
 
             if (modalidade == null)
-                throw new Exception("Graduação não encontrada");
+                throw new NotFoundException("Modalidade não encontrada");
 
             modalidade.Atualizar(dto.Descricao);
 

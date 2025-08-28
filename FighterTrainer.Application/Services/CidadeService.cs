@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using FighterTrainer.Application.Interfaces;
 using FighterTrainer.Domain.Entities;
+using FighterTrainer.Domain.Exceptions;
 using FighterTrainer.Domain.Interfaces;
 
 namespace FighterTrainer.Application.Services
@@ -34,7 +35,7 @@ namespace FighterTrainer.Application.Services
             var cidade = await _repository.ObterPorIdAsync(cidadeId);
             if (cidade == null)
             {
-                throw new Exception("Graduação não encontrada.");
+                throw new NotFoundException("Graduação não encontrada.");
             }
             else
             {
