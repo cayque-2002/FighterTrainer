@@ -116,6 +116,17 @@ namespace FighterTrainer.Application.Services
         }
 
 
+        public async Task<Atleta> ValidaAtleta(long atletaId)
+        {
+            var atleta = await _AtletaRepository.ListarPorId(atletaId);
+            if (atleta == null)
+            {
+                throw new NotFoundException("Atleta não encontrado.");
+            }
+            return atleta;
+        }
+
+
     }
 
 }

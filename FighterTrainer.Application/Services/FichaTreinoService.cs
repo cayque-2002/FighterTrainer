@@ -18,58 +18,46 @@ namespace FighterTrainer.Application.Services
         private readonly ITurmaRepository _TurmaRepository;
         private readonly IAtletaRepository _AtletaRepository;
         private readonly IUsuarioModalidadeRepository _UsuarioModalidadeRepository;
+        private readonly IAtletaService _AtletaService;
+        private readonly IUsuarioModalidadeService _UsuarioModalidadeService;
+        private readonly ITurmaService _TurmaService;
 
 
         public FichaTreinoService(
         IFichaTreinoRepository fichaTreinoRepository, ITurmaRepository turmaRepository, 
-        IAtletaRepository atletaRepository, IUsuarioModalidadeRepository usuarioModalidadeRepository)
+        IAtletaRepository atletaRepository, IUsuarioModalidadeRepository usuarioModalidadeRepository, IAtletaService atletaService, IUsuarioModalidadeService usuarioModalidadeService,ITurmaService turmaService )
         {
             _FichaTreinoRepository = fichaTreinoRepository;
             _TurmaRepository = turmaRepository;
             _AtletaRepository = atletaRepository;
             _UsuarioModalidadeRepository = usuarioModalidadeRepository;
+            _AtletaService = atletaService;
+            _UsuarioModalidadeService = usuarioModalidadeService;
+            _TurmaService = turmaService;
         }
 
         public async Task<FichaTreinoDto> AdicionarAsync(FichaTreinoDto dto)
         {
-            var turma = await _TurmaRepository.ListarPorId(dto.TurmaId);
+            //valida se a Turma existe
+            var turma = await _TurmaService.ValidaTurma(dto.TurmaId);
 
             if (turma.LimiteAlunos > 0)
             {
                 // fazer um service de validação de quantidade de alunos cadastrado na turma.
-                var alunosTurma = await _FichaTreinoRepository.ListarTodasAsync();
+                var alunosTurma = await _FichaTreinoRepository.ListarAlunosPorTurmaAsync(dto.TurmaId);
 
-                var quantidadeAlunosTurma = alunosTurma.Where(x => x.TurmaId == turma.Id).Count();
+                //var quantidadeAlunosTurma = alunosTurma.Where(x => x.TurmaId == turma.Id).Count();
 
-                if (quantidadeAlunosTurma < turma.LimiteAlunos) 
+                if (alunosTurma.Count() < turma.LimiteAlunos) 
                 {
-
-                    var validaFicha = await _FichaTreinoRepository.ListarTreinosPorAtleta(dto.AtletaId);
-
-                    var atleta = await _AtletaRepository.ListarPorId(dto.AtletaId);
-                    if (atleta == null)
-                        throw new NotFoundException("Atleta não encontrado.");
-
-                    var usuarioModalidade = await _UsuarioModalidadeRepository.ObterPorIdAsync(dto.UsuarioModalidadeId);
-                    if (usuarioModalidade == null)
-                        throw new NotFoundException("UsuárioModalidade não encontrado.");
+                    //valida se o atleta existe
+                    var atleta = await _AtletaService.ValidaAtleta( dto.AtletaId);
 
                     // valida se o atleta realmente pertence ao usuário da modalidade
-                    var validaVinculo = usuarioModalidade.Where(x => x.Id == dto.UsuarioModalidadeId).Select(x => x.UsuarioId).FirstOrDefault();
+                    var validaVinculo = await _UsuarioModalidadeService.ValidaVinculoUsuarioModalidade(dto.UsuarioModalidadeId, dto.AtletaId);
 
-                    if ( validaVinculo != atleta.UsuarioId)
-                        throw new BusinessRuleException("O atleta não pertence ao usuário informado na modalidade.");
-
-
-                    if (validaFicha.Where(x => x.UsuarioModalidadeId == dto.UsuarioModalidadeId).Count() > 1) 
-                    {
-                        throw new BusinessRuleException("Atleta ja tem ficha de treino para esta modalidade.");
-                    }
-
-                    if (validaFicha.Where(x => x.TurmaId == dto.TurmaId).Count() > 1)
-                    {
-                        throw new BusinessRuleException("Atleta ja tem ficha de treino para esta Turma.");
-                    }
+                    //valida regras de vinculo do atleta com turma ou modalidade
+                    await ValidaVinculoFichaTreino(atleta.Id,validaVinculo.Id,turma.Id);
 
                     var fichaTreino = new FichaTreino(dto.AtletaId, dto.UsuarioModalidadeId, dto.Nivel, dto.Descricao, dto.TurmaId);
                     await _FichaTreinoRepository.AdicionarAsync(fichaTreino);
@@ -98,14 +86,14 @@ namespace FighterTrainer.Application.Services
 
         public async Task<FichaTreinoDto> ListarPorId(long fichaTreinoId)
         {
-            var fichaTreino = await _FichaTreinoRepository.ListarPorId(fichaTreinoId);
-            if (fichaTreino == null)
-            {
-                throw new NotFoundException("Ficha não encontrada.");
-            }
-            else
-            {
-                return new FichaTreinoDto
+            //var fichaTreino = await _FichaTreinoRepository.ListarPorId(fichaTreinoId);
+            //if (fichaTreino == null)
+            //{
+            //    throw new NotFoundException("Ficha não encontrada.");
+            //}
+            var fichaTreino = await ValidaFichaTreino(fichaTreinoId);
+
+            return new FichaTreinoDto
                 {
                     Id = fichaTreino.Id,
                     AtletaId = fichaTreino.AtletaId,
@@ -114,7 +102,7 @@ namespace FighterTrainer.Application.Services
                     Descricao = fichaTreino.Descricao,
                     TurmaId = fichaTreino.TurmaId
                 };
-            }
+            
 
         }
 
@@ -134,12 +122,14 @@ namespace FighterTrainer.Application.Services
         }
         public async Task AtualizarAsync(FichaTreinoDto dto)
         {
-            var fichaTreino = await _FichaTreinoRepository.ListarPorId(dto.Id);
+           // var fichaTreino = await _FichaTreinoRepository.ListarPorId(dto.Id);
 
-            if (fichaTreino == null)
-            {
-                throw new NotFoundException("Ficha não encontrada.");
-            }
+            var fichaTreino = await ValidaFichaTreino(dto.Id);
+
+            //if (fichaTreino == null)
+            //{
+            //    throw new NotFoundException("Ficha não encontrada.");
+            //}
 
             await _FichaTreinoRepository.AtualizarAsync(fichaTreino);
         }
@@ -167,6 +157,7 @@ namespace FighterTrainer.Application.Services
             {
                 throw new BusinessRuleException("Atleta não possui ficha treino.");
             }
+
             return fichaTreino.Select(ft => new FichaTreinoDto
             {   
                 Id = ft.Id,
@@ -177,6 +168,38 @@ namespace FighterTrainer.Application.Services
                 TurmaId = ft.TurmaId
 
             }).ToList();
+        }
+
+        public async Task<FichaTreino> ValidaFichaTreino(long id)
+        {
+                
+           var fichaTreino = await _FichaTreinoRepository.ListarPorId((long)id);
+
+           if (fichaTreino == null)
+           {
+               throw new BusinessRuleException("Ficha Treino não encontrada.");
+           }
+
+           return fichaTreino;
+                      
+        }
+
+        public async Task ValidaVinculoFichaTreino(long atletaId, long usuarioModalidadeId, long turmaId)
+        {
+            var fichaTreino = await _FichaTreinoRepository.ListarTreinosPorAtleta(atletaId);
+
+
+            if (fichaTreino.Where(x => x.UsuarioModalidadeId == usuarioModalidadeId).Count() > 0)
+            {
+                throw new BusinessRuleException("Atleta ja tem ficha de treino para esta modalidade.");
+            }
+
+            if (fichaTreino.Where(x => x.TurmaId == turmaId).Count() > 0)
+            {
+                throw new BusinessRuleException("Atleta ja tem ficha de treino para esta Turma.");
+            }
+
+            return;
         }
 
 

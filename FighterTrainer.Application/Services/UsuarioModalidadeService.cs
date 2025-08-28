@@ -16,16 +16,19 @@ namespace FighterTrainer.Application.Services
         private readonly IUsuarioModalidadeRepository _usuarioModalidadeRepository;
         private readonly IUsuarioRepository _usuarioRepository;
         private readonly IPasswordHasher _passwordHasher;
+        private readonly IAtletaService _atletaService;
+
 
 
         public UsuarioModalidadeService(
         IUsuarioRepository usuarioRepository,
         IUsuarioModalidadeRepository usuarioModalidadeRepository,
-        IPasswordHasher passwordHasher)
+        IPasswordHasher passwordHasher,IAtletaService atletaService)
         {
             _usuarioRepository = usuarioRepository;
             _usuarioModalidadeRepository = usuarioModalidadeRepository;
             _passwordHasher = passwordHasher;
+            _atletaService = atletaService;
         }
 
         public async Task AdicionarAsync(UsuarioModalidadeDto dto)
@@ -50,7 +53,7 @@ namespace FighterTrainer.Application.Services
                 
         }
 
-        public async Task<List<UsuarioModalidade>> ListarPorId(long id)
+        public async Task<UsuarioModalidade> ListarPorId(long id)
         {
             var usuarioModalidades = await _usuarioModalidadeRepository.ObterPorIdAsync(id);
             return usuarioModalidades;
@@ -59,31 +62,63 @@ namespace FighterTrainer.Application.Services
 
         public async Task InativarAsync(long id)
         {
-            var usuarioModalidade = await _usuarioModalidadeRepository.ObterPorIdAsync(id);
+            var usuarioModalidade = await ValidaUsuarioModalidade(id);
 
-            var validaVinculo = usuarioModalidade.First();
-           
-                if (validaVinculo == null)
-                    throw new NotFoundException("Modalidade não encontrada");
+            //var usuarioModalidade = await _usuarioModalidadeRepository.ObterPorIdAsync(id);
 
-            validaVinculo.Inativar();
+            //var validaVinculo = usuarioModalidade;
+
+            //    if (validaVinculo == null)
+            //        throw new NotFoundException("Modalidade não encontrada");
+
+            usuarioModalidade.Inativar();
             await _usuarioModalidadeRepository.InativarAsync(id); 
              
         }
 
         public async Task AtivarAsync(long id)
         {
-            var usuarioModalidade = await _usuarioModalidadeRepository.ObterPorIdAsync(id);
 
-            var validaVinculo = usuarioModalidade.First();
+            var usuarioModalidade = await ValidaUsuarioModalidade(id);
 
-            if (validaVinculo == null)
-                throw new NotFoundException("Modalidade não encontrada");
+            //var usuarioModalidade = await _usuarioModalidadeRepository.ObterPorIdAsync(id);
 
-            validaVinculo.Ativar();
+            //var validaVinculo = usuarioModalidade;
+
+            //if (validaVinculo == null)
+            //    throw new NotFoundException("Modalidade não encontrada");
+
+            usuarioModalidade.Ativar();
             await _usuarioModalidadeRepository.AtivarAsync(id);
 
         }
+
+        public async Task<UsuarioModalidade> ValidaUsuarioModalidade(long id)
+        {
+            var usuarioModalidade = await _usuarioModalidadeRepository.ObterPorIdAsync(id);
+            if (usuarioModalidade == null)
+            {
+                throw new NotFoundException("UsuárioModalidade não encontrado.");
+            }
+            return usuarioModalidade;
+        }
+
+
+        public async Task<UsuarioModalidade> ValidaVinculoUsuarioModalidade(long usuarioModalidadeId, long atletaId)
+        {
+
+            var usuarioModalidade = await ValidaUsuarioModalidade(usuarioModalidadeId);
+
+            var atleta = await _atletaService.ListarPorId(atletaId);
+
+            if (usuarioModalidade.UsuarioId != atleta.UsuarioId)
+            {
+                throw new NotFoundException("O atleta não pertence ao usuário informado na modalidade.");
+            }
+
+            return usuarioModalidade;
+        }
+
 
     }
 

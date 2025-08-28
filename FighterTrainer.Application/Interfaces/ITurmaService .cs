@@ -16,6 +16,7 @@ namespace FighterTrainer.Application.Interfaces
         Task AtualizarAsync(TurmaDto dto);
         Task<bool> RemoverAsync(long id);
         Task InativarAsync(long id);
+        Task<Turma> ValidaTurma(long id);
     }
 
 }

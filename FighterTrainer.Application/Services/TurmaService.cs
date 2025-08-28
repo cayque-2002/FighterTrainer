@@ -132,13 +132,21 @@ namespace FighterTrainer.Application.Services
 
         public async Task InativarAsync(long id)
         {
-            var turma = await _TurmaRepository.ListarPorId(id);
-            if (turma == null)
-                throw new NotFoundException("Usuário não encontrado");
+            var turma = await ValidaTurma(id);
 
             turma.Inativar();
             await _TurmaRepository.InativarAsync(id);
         }
+
+        public async Task<Turma> ValidaTurma(long id)
+        {
+            var turma = await _TurmaRepository.ListarPorId(id);
+            if (turma == null)
+                throw new NotFoundException("Turma não encontrada.");
+
+            return turma;
+        }
+
 
     }
 
