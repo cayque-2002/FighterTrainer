@@ -71,6 +71,11 @@ public class AppDbContext : DbContext
             entity.Property(e => e.HoraFimAula)
                   .HasColumnType("time");
 
+            entity.HasOne(e => e.Modalidade)
+                .WithMany()
+                .HasForeignKey(e => e.ModalidadeId)
+                .OnDelete(DeleteBehavior.Restrict);
+
         });
 
         modelBuilder.Entity<Treinador>(entity =>

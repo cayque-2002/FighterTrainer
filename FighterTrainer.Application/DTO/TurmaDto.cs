@@ -23,6 +23,7 @@ public class TurmaDto
     public DateTime DataCriacao { get; set; }
     public bool Ativo { get; set; }
     public int LimiteAlunos { get; set; }
+    public long ModalidadeId { get; set; }
 
 }
 

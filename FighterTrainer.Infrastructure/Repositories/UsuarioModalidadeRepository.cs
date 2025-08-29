@@ -31,11 +31,11 @@ public class UsuarioModalidadeRepository : IUsuarioModalidadeRepository
             .ToListAsync();
     }
 
-    public async Task<List<UsuarioModalidade>> ObterPorIdAsync(long id)
+    public async Task<UsuarioModalidade> ObterPorIdAsync(long id)
     {
         return await _context.UsuarioModalidade
-            .Where(um => um.Id == id)
-            .ToListAsync();
+                     .Where(um => um.Id == id)
+                     .FirstAsync();
     }
 
     public async Task InativarAsync(long id)

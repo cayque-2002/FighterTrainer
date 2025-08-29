@@ -15,25 +15,25 @@ namespace FighterTrainer.Application.Services
     {
         private readonly ITurmaRepository _TurmaRepository;
         private readonly ITreinadorRepository _TreinadorRepository;
+        private readonly ITreinadorService  _TreinadorService;
 
         public TurmaService(
-        ITurmaRepository turmaRepository,ITreinadorRepository treinadorRepository)
+        ITurmaRepository turmaRepository,ITreinadorRepository treinadorRepository, ITreinadorService treinadorService)
         {
             _TurmaRepository = turmaRepository;
             _TreinadorRepository = treinadorRepository;
+            _TreinadorService = treinadorService;
         }
 
         public async Task<TurmaDto> CriarAsync(TurmaDto dto)
         {
             var Turma = new Turma(dto.UnidadeId,dto.Descricao,dto.HoraInicioAula,dto.HoraFimAula,dto.TreinadorResponsavelId,dto.DataCriacao,dto.Ativo, dto.LimiteAlunos);
+
+            var treinador = await _TreinadorService.ValidaTreinador(dto.TreinadorResponsavelId);
+
+            await ValidaModalidadeHorarioTurma(dto.ModalidadeId, dto.UnidadeId, dto.HoraInicioAula, dto.HoraFimAula);
+
             await _TurmaRepository.AddAsync(Turma);
-
-            var treinador = await _TreinadorRepository.ListarPorId(dto.TreinadorResponsavelId);
-
-            if (treinador == null) 
-            {
-                throw new NotFoundException("Treinador não cadastrado.");
-            };
 
             return new TurmaDto
             {
@@ -46,17 +46,13 @@ namespace FighterTrainer.Application.Services
                 Ativo = dto.Ativo,
                 LimiteAlunos = dto.LimiteAlunos
             };
+
         }
 
         public async Task<TurmaDto> ListarPorId(long turmaId)
         {
-            var turma = await _TurmaRepository.ListarPorId(turmaId);
-            if (turma == null)
-            {
-                throw new NotFoundException("Usuário não encontrado.");
-            }
-            else
-            {
+            var turma = await ValidaTurma(turmaId);
+            
                 return new TurmaDto
                 {
                     Id = turma.Id,
@@ -70,7 +66,7 @@ namespace FighterTrainer.Application.Services
                     LimiteAlunos = turma.LimiteAlunos
                     
                 };
-            }
+            
             
         }
 
@@ -93,38 +89,32 @@ namespace FighterTrainer.Application.Services
         }
         public async Task AtualizarAsync(TurmaDto dto)
         {
-            var turma = await _TurmaRepository.ListarPorId(dto.Id);
+            var turma = await ValidaTurma(dto.Id);
 
-            if (turma == null)
-                throw new NotFoundException("Turma não encontrada.");
+            //colocar valida modalidade
 
             turma.Ativo = dto.Ativo;
             turma.HoraInicioAula = dto.HoraInicioAula;
             turma.HoraFimAula = dto.HoraFimAula;
             turma.Descricao = dto.Descricao;
             turma.LimiteAlunos = dto.LimiteAlunos;
+            turma.ModalidadeId = dto.ModalidadeId;
             
             if(dto.TreinadorResponsavelId != turma.TreinadorResponsavelId) 
             {
+                var treinador = await _TreinadorService.ValidaTreinador(dto.TreinadorResponsavelId);
 
-                var treinador = await _TreinadorRepository.ListarPorId(dto.TreinadorResponsavelId);
-
-                if (treinador == null)
-                {
-                    throw new NotFoundException("Treinador não cadastrado.");
-                };
-
-                turma.TreinadorResponsavelId = dto.TreinadorResponsavelId;
+                turma.TreinadorResponsavelId = treinador.Id;
             }
-            
 
+            await ValidaModalidadeHorarioTurma(dto.ModalidadeId, dto.UnidadeId, dto.HoraInicioAula, dto.HoraFimAula);
+            
             await _TurmaRepository.AtualizarAsync(turma);
         }
 
         public async Task<bool> RemoverAsync(long id)
         {
-            var turma = await _TurmaRepository.ListarPorId(id);
-            if (turma == null) return false;
+            var turma = await ValidaTurma(id);
 
             await _TurmaRepository.RemoverAsync(turma.Id);
             return true;
@@ -147,7 +137,15 @@ namespace FighterTrainer.Application.Services
             return turma;
         }
 
+        public async Task ValidaModalidadeHorarioTurma(long modalidadeId, long unidadeId,TimeOnly horaInicioAula, TimeOnly horaFimAula)
+        {
+            var turma = await _TurmaRepository.ListarTodasAsync();
+            if (turma.Any(x => x.ModalidadeId == modalidadeId && x.UnidadeId == unidadeId && horaInicioAula <= x.HoraFimAula && x.HoraInicioAula <= horaFimAula))
+                throw new BusinessRuleException("Já tem uma turma desta modalidade nesse período.");
 
+            return ;
+        }
+        
     }
 
 }

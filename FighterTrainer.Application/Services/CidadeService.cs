@@ -32,13 +32,8 @@ namespace FighterTrainer.Application.Services
 
         public async Task<CidadeDto> ListarPorId(long cidadeId)
         {
-            var cidade = await _repository.ObterPorIdAsync(cidadeId);
-            if (cidade == null)
-            {
-                throw new NotFoundException("Graduação não encontrada.");
-            }
-            else
-            {
+            var cidade = await ValidaCidade(cidadeId);
+           
                 return new CidadeDto
                 {
                     Id = cidade.Id,
@@ -46,8 +41,16 @@ namespace FighterTrainer.Application.Services
                     Uf = cidade.UF
 
                 };
-            }
+        }
 
+        public async Task<Cidade> ValidaCidade(long cidadeId)
+        {
+            var cidade = await _repository.ObterPorIdAsync(cidadeId);
+            if (cidade == null)
+            {
+                throw new NotFoundException("Graduação não encontrada.");
+            }
+            return cidade;
         }
 
     }

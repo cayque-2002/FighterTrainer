@@ -32,10 +32,14 @@ public class Turma
     [Required(ErrorMessage = "Necessário definir uma quantidade de alunos por Turma.")]
     public int LimiteAlunos { get; set; }
 
+    [Required(ErrorMessage = "Necessário definir a modalidade da Turma.")]
+    public long ModalidadeId { get; set; }
+
 
     //navegações
     public Unidade Unidade { get; set; }
     public Treinador Treinador { get; set; }
+    public Modalidade Modalidade { get; set; }
 
 
     public Turma(long unidadeId, string descricao, TimeOnly horaInicioAula, TimeOnly horaFimAula, long treinadorResponsavelId, DateTime dataCriacao, bool ativo, int limiteAlunos)

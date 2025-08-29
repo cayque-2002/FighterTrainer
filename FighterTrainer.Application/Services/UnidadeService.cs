@@ -14,15 +14,19 @@ namespace FighterTrainer.Application.Services
     public class UnidadeService : IUnidadeService
     {
         private readonly IUnidadeRepository _unidadeRepository;
+        private readonly ICidadeService _cidadeService;
 
         public UnidadeService(
-        IUnidadeRepository unidadeRepository)
+        IUnidadeRepository unidadeRepository, ICidadeService cidadeService)
         {
             _unidadeRepository = unidadeRepository;
+            _cidadeService = cidadeService;
         }
 
         public async Task<UnidadeDto> CriarAsync(UnidadeDto dto)
         {
+            var cidade = await _cidadeService.ValidaCidade(dto.CidadeId);
+
             var unidade = new Unidade(dto.Descricao, dto.CidadeId, dto.DataCriacao, dto.Ativo);
             await _unidadeRepository.AddAsync(unidade);
 
@@ -37,14 +41,9 @@ namespace FighterTrainer.Application.Services
 
         public async Task<UnidadeDto> ListarPorId(long unidadeId)
         {
-            var unidade = await _unidadeRepository.ListarPorId(unidadeId);
-            if (unidade == null)
-            {
-                throw new NotFoundException("Usuário não encontrado.");
-            }
-            else
-            {
-                return new UnidadeDto
+            var unidade = await ValidaUnidade(unidadeId);
+
+            return new UnidadeDto
                 {
                     Id = unidade.Id,
                     Ativo = unidade.Ativo,
@@ -52,8 +51,6 @@ namespace FighterTrainer.Application.Services
                     DataCriacao = unidade.DataCriacao,
                     Descricao = unidade.Descricao
                 };
-            }
-            
         }
 
         public async Task<List<UnidadeDto>> ListarTodasAsync()
@@ -70,18 +67,21 @@ namespace FighterTrainer.Application.Services
         }
         public async Task AtualizarAsync(UnidadeDto dto)
         {
-            var unidade = await _unidadeRepository.ListarPorId(dto.Id);
+            var unidade = await ValidaUnidade(dto.Id);
 
-            if (unidade == null)
-                throw new NotFoundException("Unidade não encontrada.");
+            if (unidade.CidadeId != dto.CidadeId) 
+            {
+                //validar existência cidade
+                var cidade = await _cidadeService.ValidaCidade(dto.CidadeId);
+            }
+            
 
             await _unidadeRepository.AtualizarAsync(unidade);
         }
 
         public async Task<bool> RemoverAsync(long id)
         {
-            var unidade = await _unidadeRepository.ListarPorId(id);
-            if (unidade == null) return false;
+            var unidade = await ValidaUnidade(id);
 
             await _unidadeRepository.RemoverAsync(unidade.Id);
             return true;
@@ -89,17 +89,20 @@ namespace FighterTrainer.Application.Services
 
         public async Task InativarAsync(long id)
         {
-            var unidade = await _unidadeRepository.ListarPorId(id);
-            if (unidade == null)
-                throw new NotFoundException("Usuário não encontrado");
-
+            var unidade = await ValidaUnidade(id);
+           
             unidade.Inativar();
             await _unidadeRepository.InativarAsync(id);
         }
 
+        public async Task<Unidade> ValidaUnidade(long id)
+        {
+            var unidade = await _unidadeRepository.ListarPorId(id);
+            if (unidade == null)
+                throw new NotFoundException("Unidade não encontrada.");
 
-
-
+            return unidade;
+        }
 
     }
 

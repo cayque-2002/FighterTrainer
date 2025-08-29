@@ -61,10 +61,7 @@ namespace FighterTrainer.Application.Services
 
         public async Task AtualizarAsync(ModalidadeDto dto)
         {
-            var modalidade = await _repository.ObterPorIdAsync(dto.Id);
-
-            if (modalidade == null)
-                throw new NotFoundException("Modalidade não encontrada");
+            var modalidade = await ValidaModalidade(dto.Id);
 
             modalidade.Atualizar(dto.Descricao);
 
@@ -73,12 +70,23 @@ namespace FighterTrainer.Application.Services
 
         public async Task<bool> RemoverAsync(long id)
         {
-            var usuario = await _repository.ObterPorIdAsync(id);
-            if (usuario == null) return false;
+            var modalidade = await ValidaModalidade(id);
+            if (modalidade == null) return false;
 
-            await _repository.RemoverAsync(usuario.Id);
+            await _repository.RemoverAsync(modalidade.Id);
             return true;
         }
+
+        public async Task<Modalidade> ValidaModalidade(long id)
+        {
+            var modalidade = await _repository.ObterPorIdAsync(id);
+            if (modalidade == null)
+                throw new NotFoundException("Modalidade não encontrada.");
+
+            return modalidade;
+        }
+
+        // serviços como modalidade/graduacao validar descrição tambem
 
     }
 

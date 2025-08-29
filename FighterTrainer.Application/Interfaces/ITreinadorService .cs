@@ -10,12 +10,9 @@ namespace FighterTrainer.Application.Interfaces
 {
     public interface ITreinadorService
     {
-       // Task<TreinadorDto> AdicionarAsync(TreinadorDto treinador);
         Task<List<TreinadorDto>> ListarTodasAsync();
         Task<TreinadorDto> ListarPorId(long treinadorId);
-       // Task AtualizarAsync(TreinadorDto dto);
-        
-
+        Task<Treinador> ValidaTreinador(long id);
     }
 
 }

@@ -15,12 +15,14 @@ namespace FighterTrainer.Application.Services
     public class AtletaService : IAtletaService
     {
         private readonly IAtletaRepository _AtletaRepository;
+        private readonly IUsuarioService _UsuarioService;
 
 
         public AtletaService(
-        IAtletaRepository atletaRepository)
+        IAtletaRepository atletaRepository, IUsuarioService usuarioService)
         {
             _AtletaRepository = atletaRepository;
+            _UsuarioService = usuarioService;
         }
 
         public async Task<AtletaDto> AdicionarAsync(AtletaDto dto)

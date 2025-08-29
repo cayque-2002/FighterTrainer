@@ -33,14 +33,10 @@ namespace FighterTrainer.Application.Services
 
         public async Task AdicionarAsync(UsuarioModalidadeDto dto)
         {
-            // Verifica duplicidade de e-mail
-            var vinculoExistente = await _usuarioModalidadeRepository.ObterPorUsuarioIdAsync(dto.UsuarioId);
+            // Verifica se aluno ja cadastrado pra modalidade.
+            await ValidaVinculoModalidade(dto.UsuarioId,dto.ModalidadeId);
 
-            vinculoExistente.Where(x => x.ModalidadeId == dto.ModalidadeId).FirstOrDefault();
-            if (vinculoExistente.Count() > 0)
-                throw new BusinessRuleException("Aluno já cadastrado nessa modalidade!");
-
-            // Cria usuário
+            // Cria usuário modalidade
             var usuarioModalidade = new UsuarioModalidade(dto.UsuarioId, dto.ModalidadeId, dto.GraduacaoId, dto.DataInicio, dto.Ativo);
             await _usuarioModalidadeRepository.AdicionarAsync(usuarioModalidade);
 
@@ -55,21 +51,13 @@ namespace FighterTrainer.Application.Services
 
         public async Task<UsuarioModalidade> ListarPorId(long id)
         {
-            var usuarioModalidades = await _usuarioModalidadeRepository.ObterPorIdAsync(id);
+            var usuarioModalidades = await ValidaUsuarioModalidade(id);
             return usuarioModalidades;
-
         }
 
         public async Task InativarAsync(long id)
         {
             var usuarioModalidade = await ValidaUsuarioModalidade(id);
-
-            //var usuarioModalidade = await _usuarioModalidadeRepository.ObterPorIdAsync(id);
-
-            //var validaVinculo = usuarioModalidade;
-
-            //    if (validaVinculo == null)
-            //        throw new NotFoundException("Modalidade não encontrada");
 
             usuarioModalidade.Inativar();
             await _usuarioModalidadeRepository.InativarAsync(id); 
@@ -78,15 +66,7 @@ namespace FighterTrainer.Application.Services
 
         public async Task AtivarAsync(long id)
         {
-
             var usuarioModalidade = await ValidaUsuarioModalidade(id);
-
-            //var usuarioModalidade = await _usuarioModalidadeRepository.ObterPorIdAsync(id);
-
-            //var validaVinculo = usuarioModalidade;
-
-            //if (validaVinculo == null)
-            //    throw new NotFoundException("Modalidade não encontrada");
 
             usuarioModalidade.Ativar();
             await _usuarioModalidadeRepository.AtivarAsync(id);
@@ -104,7 +84,7 @@ namespace FighterTrainer.Application.Services
         }
 
 
-        public async Task<UsuarioModalidade> ValidaVinculoUsuarioModalidade(long usuarioModalidadeId, long atletaId)
+        public async Task<UsuarioModalidade> ValidaVinculoUsuarioAtletaModalidade(long usuarioModalidadeId, long atletaId)
         {
 
             var usuarioModalidade = await ValidaUsuarioModalidade(usuarioModalidadeId);
@@ -117,6 +97,17 @@ namespace FighterTrainer.Application.Services
             }
 
             return usuarioModalidade;
+        }
+
+        public async Task ValidaVinculoModalidade(long usuarioId, long modalidadeId)
+        {
+            var usuarioModalidade = await ListarPorUsuario(usuarioId);
+
+            if (usuarioModalidade.Any(x => x.ModalidadeId == modalidadeId))
+            {
+                throw new NotFoundException("Aluno já cadastrado nessa modalidade!");
+            }
+
         }
 
 

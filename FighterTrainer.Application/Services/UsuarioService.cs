@@ -18,16 +18,19 @@ namespace FighterTrainer.Application.Services
         private readonly IUsuarioRepository _usuarioRepository;
         private readonly IUsuarioModalidadeRepository _usuarioModalidadeRepository;
         private readonly IPasswordHasher _passwordHasher;
+        private readonly IUsuarioModalidadeService _usuarioModalidadeService;
 
 
         public UsuarioService(
         IUsuarioRepository usuarioRepository,
         IUsuarioModalidadeRepository usuarioModalidadeRepository,
-        IPasswordHasher passwordHasher)
+        IPasswordHasher passwordHasher,
+        IUsuarioModalidadeService usuarioModalidadeService)
         {
             _usuarioRepository = usuarioRepository;
             _usuarioModalidadeRepository = usuarioModalidadeRepository;
             _passwordHasher = passwordHasher;
+            _usuarioModalidadeService = usuarioModalidadeService;
         }
 
         public async Task<UsuarioDto> RegistrarUsuarioAsync(CreateUsuarioDto dto)
@@ -72,13 +75,7 @@ namespace FighterTrainer.Application.Services
 
         public async Task<UsuarioDto> ListarPorId(long usuarioId)
         {
-            var usuario = await _usuarioRepository.ObterPorIdAsync(usuarioId);
-            if (usuario == null)
-            {
-                throw new NotFoundException("Usuário não encontrado.");
-            }
-            else
-            {
+            var usuario = await ValidaUsuario(usuarioId);
                 return new UsuarioDto
                 {
                     Id = usuario.Id,
@@ -87,28 +84,17 @@ namespace FighterTrainer.Application.Services
                     Tipo = usuario.TipoUsuario,
                     Ativo = usuario.Ativo
                 };
-            }
+            
             
         }
 
         public async Task VincularUsuarioModalidadeAsync(long usuarioId, long modalidadeId, long graduacaoId)
         {
-
-            var modalidadesUsuarioExistente = await _usuarioModalidadeRepository.ObterPorUsuarioIdAsync(usuarioId);
-            foreach (var usuarioModalidade in modalidadesUsuarioExistente)
-            {
-                if (usuarioModalidade.ModalidadeId == modalidadeId && usuarioModalidade.GraduacaoId == graduacaoId)
-                {
-                    throw new BusinessRuleException("Vínculo usuarioModalidade já existe");
-                }
-                else 
-                {
-                    var modalidadesUsuario = new UsuarioModalidade(usuarioId, modalidadeId, graduacaoId, usuarioModalidade.DataInicio, usuarioModalidade.Ativo);
-                    await _usuarioModalidadeRepository.AdicionarAsync(modalidadesUsuario);
-                }
-
-            }
+            await _usuarioModalidadeService.ValidaVinculoModalidade(usuarioId, modalidadeId);
             
+            var modalidadesUsuario = new UsuarioModalidade(usuarioId, modalidadeId, graduacaoId, DateTime.Now, true);
+            await _usuarioModalidadeRepository.AdicionarAsync(modalidadesUsuario);
+
         }
 
         public async Task<List<UsuarioDto>> ListarTodosAsync()
@@ -125,29 +111,18 @@ namespace FighterTrainer.Application.Services
         }
         public async Task AtualizarAsync(UsuarioDto dto)
         {
-            var usuario = await _usuarioRepository.ObterPorIdAsync(dto.Id);
-
-            if (usuario == null)
-                throw new NotFoundException("Usuário não encontrado.");
+            var usuario = await ValidaUsuario(dto.Id);
 
             var usuarioAtualizado = new Usuario(dto.Nome,dto.Email,usuario.SenhaHash,dto.Tipo,dto.Ativo);
 
-
-            //await _usuarioRepository.AtualizarAsync(usuarioAtualizado);
-
-
             usuario.AtualizarUsuario(usuarioAtualizado);
-            //usuario.AlterarNome(dto.Nome);
-            //usuario.AlterarEmail(dto.Email);
-            //usuario.AlterarTipoUsuario(dto.Tipo);
 
             await _usuarioRepository.AtualizarAsync(usuario);
         }
 
         public async Task<bool> RemoverAsync(long id)
         {
-            var usuario = await _usuarioRepository.ObterPorIdAsync(id);
-            if (usuario == null) return false;
+            var usuario = await ValidaUsuario(id);
 
             await _usuarioRepository.RemoverAsync(usuario.Id);
             return true;
@@ -155,12 +130,19 @@ namespace FighterTrainer.Application.Services
 
         public async Task InativarAsync(long id)
         {
+            var usuario = await ValidaUsuario(id);
+           
+            usuario.Inativar();
+            await _usuarioRepository.InativarAsync(id);
+        }
+
+        public async Task<Usuario> ValidaUsuario(long id)
+        {
             var usuario = await _usuarioRepository.ObterPorIdAsync(id);
             if (usuario == null)
                 throw new NotFoundException("Usuário não encontrado");
 
-            usuario.Inativar();
-            await _usuarioRepository.InativarAsync(id);
+            return usuario;
         }
 
 

@@ -54,7 +54,7 @@ namespace FighterTrainer.Application.Services
                     var atleta = await _AtletaService.ValidaAtleta( dto.AtletaId);
 
                     // valida se o atleta realmente pertence ao usuário da modalidade
-                    var validaVinculo = await _UsuarioModalidadeService.ValidaVinculoUsuarioModalidade(dto.UsuarioModalidadeId, dto.AtletaId);
+                    var validaVinculo = await _UsuarioModalidadeService.ValidaVinculoUsuarioAtletaModalidade(dto.UsuarioModalidadeId, dto.AtletaId);
 
                     //valida regras de vinculo do atleta com turma ou modalidade
                     await ValidaVinculoFichaTreino(atleta.Id,validaVinculo.Id,turma.Id);
@@ -189,12 +189,12 @@ namespace FighterTrainer.Application.Services
             var fichaTreino = await _FichaTreinoRepository.ListarTreinosPorAtleta(atletaId);
 
 
-            if (fichaTreino.Where(x => x.UsuarioModalidadeId == usuarioModalidadeId).Count() > 0)
+            if (fichaTreino.Any(x => x.UsuarioModalidadeId == usuarioModalidadeId))
             {
                 throw new BusinessRuleException("Atleta ja tem ficha de treino para esta modalidade.");
             }
 
-            if (fichaTreino.Where(x => x.TurmaId == turmaId).Count() > 0)
+            if (fichaTreino.Any(x => x.TurmaId == turmaId))
             {
                 throw new BusinessRuleException("Atleta ja tem ficha de treino para esta Turma.");
             }
