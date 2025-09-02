@@ -36,14 +36,9 @@ namespace FighterTrainer.Application.Services
 
         public async Task<GraduacaoDto> ListarPorId(long graduacaoId)
         {
-            var graduacao = await _repository.ObterPorIdAsync(graduacaoId);
-            if (graduacao == null)
-            {
-                throw new NotFoundException("Graduação não encontrada.");
-            }
-            else
-            {
-                return new GraduacaoDto
+            var graduacao = await ValidaGraduacao(graduacaoId);
+
+            return new GraduacaoDto
                 {
                     Id = graduacaoId,
                     Descricao = graduacao.Descricao,
@@ -53,13 +48,26 @@ namespace FighterTrainer.Application.Services
                     Nivel = graduacao.Nivel
 
                 };
-            }
+            
 
         }
 
         public async Task<GraduacaoDto> CriarAsync(GraduacaoDto dto)
         {
+            var validaGraduacao = await _repository.GetAllAsync();
+
+            if(validaGraduacao.Any(x => x.FederacaoId == dto.FederacaoId && x.ModalidadeId == dto.ModalidadeId && x.Grau == dto.Grau))
+            {
+                throw new BusinessRuleException("Já existe uma graduação com essa relação de Modalidade, Federação e Grau.");
+            }
+
+            if (validaGraduacao.Any(x => x.Descricao.ToLower() == dto.Descricao.ToLower()))
+            {
+                throw new BusinessRuleException("Já existe uma graduação com essa descrição.");
+            }
+
             var graduacao = new Graduacao(dto.ModalidadeId,dto.Descricao,dto.Nivel,dto.Grau, dto.FederacaoId);
+
             await _repository.AddAsync(graduacao);
 
             return new GraduacaoDto
@@ -75,10 +83,7 @@ namespace FighterTrainer.Application.Services
         }
         public async Task AtualizarAsync(GraduacaoDto dto)
         {
-            var graduacao = await _repository.ObterPorIdAsync(dto.Id);
-
-            if (graduacao == null)
-                throw new NotFoundException("Graduação não encontrada");
+            var graduacao = await ValidaGraduacao(dto.Id);
 
             graduacao.Atualizar(dto.Descricao, dto.Nivel, dto.Grau, dto.ModalidadeId, dto.FederacaoId);
 
@@ -87,11 +92,22 @@ namespace FighterTrainer.Application.Services
 
         public async Task<bool> RemoverAsync(long id)
         {
-            var usuario = await _repository.ObterPorIdAsync(id);
-            if (usuario == null) return false;
+            var graduacao = await ValidaGraduacao(id);
 
-            await _repository.RemoverAsync(usuario.Id);
+            await _repository.RemoverAsync(graduacao.Id);
             return true;
+        }
+
+        public async Task<Graduacao> ValidaGraduacao(long id)
+        {
+            var graduacao = await _repository.ObterPorIdAsync(id);
+            
+            if (graduacao == null)
+            {
+                throw new NotFoundException("Graduação não encontrada");
+            }
+
+            return graduacao;
         }
 
     }

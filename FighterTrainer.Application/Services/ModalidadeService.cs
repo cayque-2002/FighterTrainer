@@ -49,6 +49,14 @@ namespace FighterTrainer.Application.Services
 
         public async Task<ModalidadeDto> CriarAsync(ModalidadeDto dto)
         {
+
+            var validaModalidade = await _repository.GetAllAsync();
+
+            if (validaModalidade.Any(x => x.Descricao.ToLower() == dto.Descricao.ToLower()))
+            {
+                throw new BusinessRuleException("Já existe uma modalidade com essa descrição.");
+            }
+
             var modalidade = new Modalidade(dto.Descricao);
             await _repository.AddAsync(modalidade);
 
