@@ -60,7 +60,6 @@ namespace FighterTrainer.Application.Services
             
         }
 
-
     }
 
 }

@@ -1,5 +1,6 @@
 ﻿using FighterTrainer.Application.Interfaces;
 using FighterTrainer.Application.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 [ApiController]
@@ -14,6 +15,7 @@ public class FederacaoController : ControllerBase
     }
 
     [HttpGet]
+    [Authorize]
     public async Task<IActionResult> Get()
     {
         var lista = await _federacaoService.ListarTodasAsync();
@@ -21,6 +23,7 @@ public class FederacaoController : ControllerBase
     }
 
     [HttpGet("{federacaoId}")]
+    [Authorize]
     public async Task<IActionResult> GetPorId(long federacaoId)
     {
         var lista = await _federacaoService.ListarPorId(federacaoId);
@@ -28,6 +31,7 @@ public class FederacaoController : ControllerBase
     }
 
     [HttpPost]
+    [Authorize(Roles = "Administrador")]
     public async Task<IActionResult> Post([FromBody] FederacaoDto dto)
     {
         var nova = await _federacaoService.CriarAsync(dto);
@@ -35,6 +39,7 @@ public class FederacaoController : ControllerBase
     }
 
     [HttpPut("{id}")]
+    [Authorize(Roles = "Administrador")]
     public async Task<IActionResult> Atualizar(long id, [FromBody] FederacaoDto dto)
     {
         if (id != dto.Id)
@@ -52,6 +57,7 @@ public class FederacaoController : ControllerBase
     }
 
     [HttpDelete("{id:long}")]
+    [Authorize(Roles = "Administrador")]
     public async Task<IActionResult> Delete(long id)
     {
         var resultado = await _federacaoService.RemoverAsync(id);

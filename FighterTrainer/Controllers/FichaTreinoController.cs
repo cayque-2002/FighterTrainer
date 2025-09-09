@@ -2,6 +2,7 @@
 using FighterTrainer.Application.Services;
 using FighterTrainer.Infrastructure.Context;
 using Infrastructure.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FighterTrainer.API.Controllers;
@@ -28,6 +29,7 @@ public class FichaTreinoController : ControllerBase
 
 
     [HttpPost]
+    [Authorize(Roles = "Treinador,Administrador")]
     public async Task<IActionResult> Post([FromBody] FichaTreinoDto dto)
     {
         var nova = await _iFichaTreinoService.AdicionarAsync(dto);
@@ -35,6 +37,7 @@ public class FichaTreinoController : ControllerBase
     }
 
     [HttpGet]
+    [Authorize]
     public async Task<IActionResult> Get()
     {
         var fichasTreino = await _iFichaTreinoService.ListarTodasAsync();
@@ -42,6 +45,7 @@ public class FichaTreinoController : ControllerBase
     }
 
     [HttpGet("{fichaTreinoId}")]
+    [Authorize]
     public async Task<IActionResult> GetPorId(long fichaTreinoId)
     {
         var lista = await _iFichaTreinoService.ListarPorId(fichaTreinoId);
@@ -49,6 +53,7 @@ public class FichaTreinoController : ControllerBase
     }
 
     [HttpPut("atualizar/{id}")]
+    [Authorize(Roles = "Treinador,Administrador")]
     public async Task<IActionResult> Atualizar(long id, [FromBody] FichaTreinoDto dto)
     {
         if (id != dto.Id)
@@ -68,6 +73,7 @@ public class FichaTreinoController : ControllerBase
     }
 
     [HttpGet("turma/{turmaId}")]
+    [Authorize]
     public async Task<IActionResult> GetAlunosPorTurma(long turmaId)
     {
         var fichasTreino = await _iFichaTreinoService.ListarAlunosPorTurmaAsync(turmaId);
@@ -75,6 +81,7 @@ public class FichaTreinoController : ControllerBase
     }
 
     [HttpGet("atleta/{atletaId}")]
+    [Authorize]
     public async Task<IActionResult> GetTreinosPorAtleta(long atletaId)
     {
         var fichasTreino = await _iFichaTreinoService.ListarTreinosPorAtleta(atletaId);

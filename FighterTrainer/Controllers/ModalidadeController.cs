@@ -1,5 +1,6 @@
 ﻿using FighterTrainer.Application.Interfaces;
 using FighterTrainer.Application.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 [ApiController]
@@ -14,6 +15,7 @@ public class ModalidadeController : ControllerBase
     }
 
     [HttpGet]
+    [Authorize]
     public async Task<IActionResult> Get()
     {
         var lista = await _modalidadeService.ListarTodasAsync();
@@ -21,6 +23,7 @@ public class ModalidadeController : ControllerBase
     }
 
     [HttpGet("{modalidadeId}")]
+    [Authorize]
     public async Task<IActionResult> GetPorId(long modalidadeId)
     {
         var lista = await _modalidadeService.ListarPorId(modalidadeId);
@@ -28,6 +31,7 @@ public class ModalidadeController : ControllerBase
     }
 
     [HttpPost]
+    [Authorize(Roles = "Treinador,Administrador")]
     public async Task<IActionResult> Post([FromBody] ModalidadeDto dto)
     {
         var nova = await _modalidadeService.CriarAsync(dto);
@@ -35,6 +39,7 @@ public class ModalidadeController : ControllerBase
     }
 
     [HttpPut("{id}")]
+    [Authorize(Roles = "Treinador,Administrador")]
     public async Task<IActionResult> Atualizar(long id, [FromBody] ModalidadeDto dto)
     {
         if (id != dto.Id)
@@ -52,6 +57,7 @@ public class ModalidadeController : ControllerBase
     }
 
     [HttpDelete("{id:long}")]
+    [Authorize(Roles = "Treinador,Administrador")]
     public async Task<IActionResult> Delete(long id)
     {
         var resultado = await _modalidadeService.RemoverAsync(id);

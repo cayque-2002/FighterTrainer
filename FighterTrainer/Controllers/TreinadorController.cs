@@ -2,6 +2,7 @@
 using FighterTrainer.Application.Services;
 using FighterTrainer.Infrastructure.Context;
 using Infrastructure.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FighterTrainer.API.Controllers;
@@ -35,6 +36,7 @@ public class TreinadorController : ControllerBase
     //}
 
     [HttpGet]
+    [Authorize]
     public async Task<IActionResult> Get()
     {
         var usuarios = await _iTreinadorService.ListarTodasAsync();
@@ -42,6 +44,7 @@ public class TreinadorController : ControllerBase
     }
 
     [HttpGet("{id}")]
+    [Authorize]
     public async Task<IActionResult> GetPorId(long id)
     {
         var lista = await _iTreinadorService.ListarPorId(id);

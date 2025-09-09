@@ -1,5 +1,6 @@
 ﻿using FighterTrainer.Application.Interfaces;
 using FighterTrainer.Application.Services;
+using FighterTrainer.Application.Services.Auth;
 using FighterTrainer.Infrastructure.Context;
 using Infrastructure.Services;
 using Microsoft.AspNetCore.Mvc;
