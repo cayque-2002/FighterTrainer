@@ -15,12 +15,14 @@ namespace FighterTrainer.Application.Services
     {
         private readonly IUnidadeRepository _unidadeRepository;
         private readonly ICidadeService _cidadeService;
+        private readonly ICidadeRepository _cidadeRepository;
 
         public UnidadeService(
-        IUnidadeRepository unidadeRepository, ICidadeService cidadeService)
+        IUnidadeRepository unidadeRepository, ICidadeService cidadeService, ICidadeRepository cidadeRepository)
         {
             _unidadeRepository = unidadeRepository;
             _cidadeService = cidadeService;
+            _cidadeRepository = cidadeRepository;
         }
 
         public async Task<UnidadeDto> CriarAsync(UnidadeDto dto)

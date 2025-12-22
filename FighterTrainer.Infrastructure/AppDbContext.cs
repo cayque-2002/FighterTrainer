@@ -8,7 +8,7 @@ public class AppDbContext : DbContext
 {
     public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 
-    public DbSet<Usuario> Usuarios => Set<Usuario>();
+    public DbSet<Usuarios> Usuarios => Set<Usuarios>();
     public DbSet<Atleta> Atletas => Set<Atleta>();
     public DbSet<Treinador> Treinadores => Set<Treinador>();
     public DbSet<FichaTreino> FichasTreino => Set<FichaTreino>();
@@ -94,6 +94,15 @@ public class AppDbContext : DbContext
 
 
         modelBuilder.Entity<FichaTreino>(entity =>
+        {
+            entity.HasKey(e => e.Id);
+
+            entity.Property(e => e.Id)
+                .ValueGeneratedOnAdd();
+
+        });
+
+        modelBuilder.Entity<Usuarios>(entity =>
         {
             entity.HasKey(e => e.Id);
 

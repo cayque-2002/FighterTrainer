@@ -15,11 +15,11 @@ public class UsuarioController : ControllerBase
 {
 
     private readonly AppDbContext _context;
-    private readonly TokenService _tokenService;
+    private readonly ITokenService _tokenService;
     private readonly UsuarioService _usuarioService;
     private readonly IUsuarioService _iusuarioService;
 
-    public UsuarioController(AppDbContext context, TokenService tokenService, UsuarioService usuarioService, IUsuarioService iusuarioService)
+    public UsuarioController(AppDbContext context, ITokenService tokenService, UsuarioService usuarioService, IUsuarioService iusuarioService)
     {
         _context = context;
         _tokenService = tokenService;

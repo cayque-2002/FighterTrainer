@@ -8,7 +8,7 @@ using FighterTrainer.Domain.Enums;
 
 namespace FighterTrainer.Domain.Entities;
 
-public class Usuario
+public class Usuarios
 {
     public long Id { get; set; }
     public string Nome { get; set; } = string.Empty;
@@ -21,7 +21,7 @@ public class Usuario
     public ICollection<UsuarioModalidade> UsuarioModalidades { get; private set; } = new List<UsuarioModalidade>();
 
 
-    public Usuario(string nome, string email, string senhaHash, TipoUsuario tipoUsuario, bool ativo)
+    public Usuarios(string nome, string email, string senhaHash, TipoUsuario tipoUsuario, bool ativo)
     {
         Nome = nome;
         Email = email;
@@ -53,7 +53,7 @@ public class Usuario
     {
         TipoUsuario = tipo;
     }
-    public void AtualizarUsuario(Usuario usuario)
+    public void AtualizarUsuario(Usuarios usuario)
     {
         if (string.IsNullOrWhiteSpace(usuario.Email))
             throw new ArgumentException("Email inválido.");

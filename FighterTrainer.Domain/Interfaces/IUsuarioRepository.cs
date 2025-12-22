@@ -9,12 +9,12 @@ namespace FighterTrainer.Domain.Interfaces
 {
     public interface IUsuarioRepository
     {
-        Task<Usuario?> ObterPorEmailAsync(string email);
-        Task<Usuario?> ObterPorIdAsync(long id);
-        Task<List<Usuario>> ListarTodosAsync();
-        Task AdicionarAsync(Usuario usuario);
+        Task<Usuarios?> ObterPorEmailAsync(string email);
+        Task<Usuarios?> ObterPorIdAsync(long id);
+        Task<List<Usuarios>> ListarTodosAsync();
+        Task AdicionarAsync(Usuarios usuario);
         Task<bool> EmailJaCadastradoAsync(string email);
-        Task AtualizarAsync(Usuario usuario);
+        Task AtualizarAsync(Usuarios usuario);
         Task<bool> RemoverAsync(long id);
         Task InativarAsync(long id);
         Task CriarAtleta(Atleta atleta);

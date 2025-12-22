@@ -16,19 +16,18 @@ namespace FighterTrainer.Application.Services
         private readonly IUsuarioModalidadeRepository _usuarioModalidadeRepository;
         private readonly IUsuarioRepository _usuarioRepository;
         private readonly IPasswordHasher _passwordHasher;
-        private readonly IAtletaService _atletaService;
+        private readonly IAtletaRepository _atletaRepository;
 
 
 
         public UsuarioModalidadeService(
         IUsuarioRepository usuarioRepository,
         IUsuarioModalidadeRepository usuarioModalidadeRepository,
-        IPasswordHasher passwordHasher,IAtletaService atletaService)
+        IPasswordHasher passwordHasher)
         {
             _usuarioRepository = usuarioRepository;
             _usuarioModalidadeRepository = usuarioModalidadeRepository;
             _passwordHasher = passwordHasher;
-            _atletaService = atletaService;
         }
 
         public async Task AdicionarAsync(UsuarioModalidadeDto dto)
@@ -89,7 +88,8 @@ namespace FighterTrainer.Application.Services
 
             var usuarioModalidade = await ValidaUsuarioModalidade(usuarioModalidadeId);
 
-            var atleta = await _atletaService.ListarPorId(atletaId);
+            
+            var atleta = await _atletaRepository.ListarPorId(atletaId);
 
             if (usuarioModalidade.UsuarioId != atleta.UsuarioId)
             {

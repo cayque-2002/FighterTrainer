@@ -1,5 +1,6 @@
 ﻿using FighterTrainer.Application.Interfaces;
 using FighterTrainer.Application.Services;
+using FighterTrainer.Application.Services.Auth;
 using FighterTrainer.Infrastructure.Context;
 using Infrastructure.Services;
 using Microsoft.AspNetCore.Authorization;
@@ -15,11 +16,11 @@ public class FichaTreinoController : ControllerBase
 {
 
     private readonly AppDbContext _context;
-    private readonly TokenService _tokenService;
+    private readonly ITokenService _tokenService;
     private readonly FichaTreinoService _fichaTreinoService;
     private readonly IFichaTreinoService _iFichaTreinoService;
 
-    public FichaTreinoController(AppDbContext context, TokenService tokenService, FichaTreinoService fichaTreinoService, IFichaTreinoService iFichaTreinoService)
+    public FichaTreinoController(AppDbContext context, ITokenService tokenService, FichaTreinoService fichaTreinoService, IFichaTreinoService iFichaTreinoService)
     {
         _context = context;
         _tokenService = tokenService;

@@ -19,13 +19,13 @@ namespace FighterTrainer.Infrastructure.Repositories
             _context = context;
         }
 
-        public async Task<Usuario?> ObterPorEmailAsync(string email)
+        public async Task<Usuarios?> ObterPorEmailAsync(string email)
             => await _context.Usuarios.FirstOrDefaultAsync(u => u.Email == email);
 
-        public async Task<Usuario?> ObterPorIdAsync(long id)
+        public async Task<Usuarios?> ObterPorIdAsync(long id)
             => await _context.Usuarios.FindAsync(id);
 
-        public async Task AdicionarAsync(Usuario usuario)
+        public async Task AdicionarAsync(Usuarios usuario)
         {
             await _context.Usuarios.AddAsync(usuario);
             await _context.SaveChangesAsync();
@@ -34,12 +34,12 @@ namespace FighterTrainer.Infrastructure.Repositories
         public async Task<bool> EmailJaCadastradoAsync(string email)
             => await _context.Usuarios.AnyAsync(u => u.Email == email);
 
-        public async Task<List<Usuario>> ListarTodosAsync()
+        public async Task<List<Usuarios>> ListarTodosAsync()
         {
             return await _context.Usuarios.ToListAsync();
         }
 
-        public async Task AtualizarAsync(Usuario usuario)
+        public async Task AtualizarAsync(Usuarios usuario)
         {
             _context.Usuarios.Update(usuario);
             await _context.SaveChangesAsync();

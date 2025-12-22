@@ -1,12 +1,9 @@
 using Application.DTOs;
 using FighterTrainer.Domain.Entities;
 using FighterTrainer.Infrastructure.Context;
-using Infrastructure.Services;
-using Microsoft.AspNetCore.Mvc;
 using FighterTrainer.Application.Interfaces;
-using Microsoft.AspNetCore.Mvc;
-using FighterTrainer.Application.Services;
 using FighterTrainer.Application.Services.Auth;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 
 namespace API.Controllers;
@@ -16,17 +13,13 @@ namespace API.Controllers;
 public class AuthController : ControllerBase
 {
     private readonly AppDbContext _context;
-    private readonly FighterTrainer.Application.Services.Auth.TokenService _tokenService;
-    private readonly Infrastructure.Services.TokenService _tokenServiceInfra;
+    private readonly ITokenService _tokenService;
+    private readonly IUsuarioService _usuarioService;
 
-    private readonly UsuarioService _usuarioService;
-
-    public AuthController(AppDbContext context, FighterTrainer.Application.Services.Auth.TokenService tokenService,
-                          Infrastructure.Services.TokenService tokenServiceInfra, UsuarioService usuarioService)
+    public AuthController(AppDbContext context, ITokenService tokenService, IUsuarioService usuarioService)
     {
         _context = context;
         _tokenService = tokenService;
-        _tokenServiceInfra = tokenServiceInfra;
         _usuarioService = usuarioService;
     }
 
@@ -35,18 +28,17 @@ public class AuthController : ControllerBase
     public IActionResult Login(LoginDto dto)
     {
         var usuario = _context.Usuarios.FirstOrDefault(x => x.Email == dto.Email);
-        
-        if (usuario == null) 
+
+        if (usuario == null)
         {
             return Unauthorized("Credenciais inválidas");
         }
 
         var validaSenha = usuario.VerificarSenha(dto.Senha);
-        if (validaSenha == false) 
+        if (validaSenha == false)
         {
             return Unauthorized("Credenciais inválidas");
         }
-            
 
         var token = _tokenService.GenerateToken(usuario);
 
@@ -57,7 +49,6 @@ public class AuthController : ControllerBase
     [Authorize(Roles = "Treinador,Administrador")]
     public async Task<IActionResult> RegisterAsync(CreateUsuarioDto dto)
     {
-
         try
         {
             var usuario = await _usuarioService.RegistrarUsuarioAsync(dto);
@@ -68,5 +59,4 @@ public class AuthController : ControllerBase
             return BadRequest(new { erro = ex.Message });
         }
     }
-
 }

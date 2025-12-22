@@ -1,5 +1,6 @@
 ﻿using FighterTrainer.Application.Interfaces;
 using FighterTrainer.Application.Services;
+using FighterTrainer.Application.Services.Auth;
 using FighterTrainer.Infrastructure.Context;
 using Infrastructure.Services;
 using Microsoft.AspNetCore.Authorization;
@@ -15,11 +16,11 @@ public class UnidadeController : ControllerBase
 {
 
     private readonly AppDbContext _context;
-    private readonly TokenService _tokenService;
+    private readonly ITokenService _tokenService;
     private readonly UnidadeService _unidadeService;
     private readonly IUnidadeService _iunidadeService;
 
-    public UnidadeController(AppDbContext context, TokenService tokenService, UnidadeService unidadeService, IUnidadeService iunidadeService)
+    public UnidadeController(AppDbContext context, ITokenService tokenService, UnidadeService unidadeService, IUnidadeService iunidadeService)
     {
         _context = context;
         _tokenService = tokenService;

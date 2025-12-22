@@ -1,5 +1,6 @@
 ﻿using FighterTrainer.Application.Interfaces;
 using FighterTrainer.Application.Services;
+using FighterTrainer.Application.Services.Auth;
 using FighterTrainer.Infrastructure.Context;
 using Infrastructure.Services;
 using Microsoft.AspNetCore.Authorization;
@@ -15,11 +16,11 @@ public class TurmaController : ControllerBase
 {
 
     private readonly AppDbContext _context;
-    private readonly TokenService _tokenService;
+    private readonly ITokenService _tokenService;
     private readonly TurmaService _turmaService;
     private readonly ITurmaService _iturmaService;
 
-    public TurmaController(AppDbContext context, TokenService tokenService,TurmaService turmaService, ITurmaService iturmaService)
+    public TurmaController(AppDbContext context, ITokenService tokenService,TurmaService turmaService, ITurmaService iturmaService)
     {
         _context = context;
         _tokenService = tokenService;

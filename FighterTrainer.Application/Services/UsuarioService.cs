@@ -18,19 +18,16 @@ namespace FighterTrainer.Application.Services
         private readonly IUsuarioRepository _usuarioRepository;
         private readonly IUsuarioModalidadeRepository _usuarioModalidadeRepository;
         private readonly IPasswordHasher _passwordHasher;
-        private readonly IUsuarioModalidadeService _usuarioModalidadeService;
 
 
         public UsuarioService(
         IUsuarioRepository usuarioRepository,
         IUsuarioModalidadeRepository usuarioModalidadeRepository,
-        IPasswordHasher passwordHasher,
-        IUsuarioModalidadeService usuarioModalidadeService)
+        IPasswordHasher passwordHasher)
         {
             _usuarioRepository = usuarioRepository;
             _usuarioModalidadeRepository = usuarioModalidadeRepository;
             _passwordHasher = passwordHasher;
-            _usuarioModalidadeService = usuarioModalidadeService;
         }
 
         public async Task<UsuarioDto> RegistrarUsuarioAsync(CreateUsuarioDto dto)
@@ -44,7 +41,7 @@ namespace FighterTrainer.Application.Services
             var senhaHash = BCrypt.Net.BCrypt.HashPassword(dto.Senha);
 
             // Cria usuário
-            var usuario = new Usuario(dto.Nome, dto.Email, senhaHash, dto.Tipo, false);
+            var usuario = new Usuarios(dto.Nome, dto.Email, senhaHash, dto.Tipo, false);
             await _usuarioRepository.AdicionarAsync(usuario);
 
             //await _usuarioModalidadeRepository.AdicionarAsync(usuarioModalidade);
@@ -90,7 +87,7 @@ namespace FighterTrainer.Application.Services
 
         public async Task VincularUsuarioModalidadeAsync(long usuarioId, long modalidadeId, long graduacaoId)
         {
-            await _usuarioModalidadeService.ValidaVinculoModalidade(usuarioId, modalidadeId);
+            //await _usuarioModalidadeService.ValidaVinculoModalidade(usuarioId, modalidadeId);
             
             var modalidadesUsuario = new UsuarioModalidade(usuarioId, modalidadeId, graduacaoId, DateTime.Now, true);
             await _usuarioModalidadeRepository.AdicionarAsync(modalidadesUsuario);
@@ -113,7 +110,7 @@ namespace FighterTrainer.Application.Services
         {
             var usuario = await ValidaUsuario(dto.Id);
 
-            var usuarioAtualizado = new Usuario(dto.Nome,dto.Email,usuario.SenhaHash,dto.Tipo,dto.Ativo);
+            var usuarioAtualizado = new Usuarios(dto.Nome,dto.Email,usuario.SenhaHash,dto.Tipo,dto.Ativo);
 
             usuario.AtualizarUsuario(usuarioAtualizado);
 
@@ -136,7 +133,7 @@ namespace FighterTrainer.Application.Services
             await _usuarioRepository.InativarAsync(id);
         }
 
-        public async Task<Usuario> ValidaUsuario(long id)
+        public async Task<Usuarios> ValidaUsuario(long id)
         {
             var usuario = await _usuarioRepository.ObterPorIdAsync(id);
             if (usuario == null)

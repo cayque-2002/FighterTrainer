@@ -16,7 +16,7 @@ public class Treinador
     public DateTime DataCadastro { get; set; } = DateTime.UtcNow;
 
 
-    public Usuario Usuario { get; set; }
+    public Usuarios Usuario { get; set; }
 
     public Treinador(long usuarioId)
     {

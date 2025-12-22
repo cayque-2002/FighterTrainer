@@ -1,5 +1,6 @@
 ﻿using FighterTrainer.Application.Interfaces;
 using FighterTrainer.Application.Services;
+using FighterTrainer.Application.Services.Auth;
 using FighterTrainer.Infrastructure.Context;
 using Infrastructure.Services;
 using Microsoft.AspNetCore.Authorization;
@@ -15,11 +16,11 @@ public class TreinadorController : ControllerBase
 {
 
     private readonly AppDbContext _context;
-    private readonly TokenService _tokenService;
+    private readonly ITokenService _tokenService;
     private readonly TreinadorService _treinadorService;
     private readonly ITreinadorService _iTreinadorService;
 
-    public TreinadorController(AppDbContext context, TokenService tokenService, TreinadorService treinadorService, ITreinadorService iTreinadorService)
+    public TreinadorController(AppDbContext context, ITokenService tokenService, TreinadorService treinadorService, ITreinadorService iTreinadorService)
     {
         _context = context;
         _tokenService = tokenService;

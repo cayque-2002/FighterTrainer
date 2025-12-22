@@ -17,7 +17,7 @@ public class UsuarioModalidade
 
 
     // Navegações
-    public Usuario Usuario { get; set; }
+    public Usuarios Usuario { get; set; }
     public Modalidade Modalidade { get; set; }
     public Graduacao Graduacao { get; set; }
 
