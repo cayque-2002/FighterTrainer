@@ -102,18 +102,39 @@ public class AppDbContext : DbContext
 
         });
 
+
         modelBuilder.Entity<Usuarios>(entity =>
         {
+            entity.ToTable("usuarios"); // ajuste para o nome exato da tabela no seu BD
+
             entity.HasKey(e => e.Id);
 
             entity.Property(e => e.Id)
-                .ValueGeneratedOnAdd();
+                  .HasColumnName("id") // nome da coluna no BD
+                  .ValueGeneratedOnAdd();
 
+            entity.Property(e => e.Nome)
+                  .HasColumnName("nome")
+                  .IsRequired();
+
+            entity.Property(e => e.Email)
+                  .HasColumnName("email")
+                  .IsRequired();
+
+            entity.Property(e => e.SenhaHash)
+                  .HasColumnName("senhahash")
+                  .IsRequired();
+
+            entity.Property(e => e.TipoUsuario)
+                  .HasColumnName("tipousuario");
+
+            entity.Property(e => e.Ativo)
+                  .HasColumnName("ativo");
+
+            entity.Property(e => e.DataCadastro)
+                  .HasColumnName("datacadastro");
         });
 
     }
-
-
-
 
 }
