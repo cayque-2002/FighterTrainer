@@ -46,7 +46,7 @@ public class AuthController : ControllerBase
     }
 
     [HttpPost("register")]
-    [Authorize(Roles = "Treinador,Administrador")]
+    //[Authorize(Roles = "Treinador,Administrador")]
     public async Task<IActionResult> RegisterAsync(CreateUsuarioDto dto)
     {
         try

@@ -80,10 +80,21 @@ public class AppDbContext : DbContext
 
         modelBuilder.Entity<Treinador>(entity =>
         {
+            entity.ToTable("treinadores");
+            
+            entity.Property(e => e.Id)
+                  .HasColumnName("id") 
+                  .ValueGeneratedOnAdd();
+
             entity.HasKey(e => e.Id);
 
-            entity.Property(e => e.Id)
-                .ValueGeneratedOnAdd();
+            entity.Property(e => e.UsuarioId)
+                  .HasColumnName("usuarioid")
+                  .IsRequired();
+
+            entity.Property(e => e.DataCadastro)
+                  .HasColumnName("datacadastro")
+                  .IsRequired();
 
             entity.HasOne(e => e.Usuario)
                 .WithMany()
