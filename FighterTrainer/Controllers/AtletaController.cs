@@ -30,7 +30,6 @@ public class AtletaController : ControllerBase
 
 
     [HttpPost]
-    [Authorize(Roles ="Treinador,Administrador")]
     public async Task<IActionResult> Post([FromBody] AtletaDto dto)
     {
         var nova = await _iatletaService.AdicionarAsync(dto);
@@ -38,7 +37,6 @@ public class AtletaController : ControllerBase
     }
 
     [HttpGet]
-    [Authorize]
     public async Task<IActionResult> Get()
     {
         var usuarios = await _iatletaService.ListarTodasAsync();
@@ -46,7 +44,6 @@ public class AtletaController : ControllerBase
     }
 
     [HttpGet("{atletaId}")]
-    [Authorize]
     public async Task<IActionResult> GetPorId(long atletaId)
     {
         var lista = await _iatletaService.ListarPorId(atletaId);
@@ -54,7 +51,6 @@ public class AtletaController : ControllerBase
     }
 
     [HttpPut("atualizar/{id}")]
-    [Authorize(Roles = "Treinador,Administrador")]
     public async Task<IActionResult> Atualizar(long id, [FromBody] AtletaDto dto)
     {
         if (id != dto.Id)

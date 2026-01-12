@@ -15,7 +15,6 @@ public class GraduacaoController : ControllerBase
     }
 
     [HttpGet]
-    [Authorize]
     public async Task<IActionResult> Get()
     {
         var lista = await _graduacaoService.ListarTodasAsync();
@@ -30,7 +29,6 @@ public class GraduacaoController : ControllerBase
     }
 
     [HttpPost]
-    [Authorize(Roles = "Treinador,Administrador")]
     public async Task<IActionResult> Post([FromBody] GraduacaoDto dto)
     {
         var nova = await _graduacaoService.CriarAsync(dto);
@@ -38,7 +36,6 @@ public class GraduacaoController : ControllerBase
     }
 
     [HttpPut("{id}")]
-    [Authorize(Roles = "Treinador,Administrador")]
     public async Task<IActionResult> Atualizar(long id, [FromBody] GraduacaoDto dto)
     {
         if (id != dto.Id)
@@ -56,7 +53,6 @@ public class GraduacaoController : ControllerBase
     }
 
     [HttpDelete("{id:long}")]
-    [Authorize(Roles = "Treinador,Administrador")]
     public async Task<IActionResult> Delete(long id)
     {
         var resultado = await _graduacaoService.RemoverAsync(id);

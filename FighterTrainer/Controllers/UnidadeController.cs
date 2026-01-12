@@ -30,7 +30,6 @@ public class UnidadeController : ControllerBase
 
 
     [HttpPost]
-    [Authorize(Roles = "Administrador")]
     public async Task<IActionResult> Post([FromBody] UnidadeDto dto)
     {
         var nova = await _unidadeService.CriarAsync(dto);
@@ -38,7 +37,6 @@ public class UnidadeController : ControllerBase
     }
 
     [HttpGet]
-    [Authorize]
     public async Task<IActionResult> Get()
     {
         var usuarios = await _iunidadeService.ListarTodasAsync();
@@ -46,7 +44,6 @@ public class UnidadeController : ControllerBase
     }
 
     [HttpGet("{unidadeId}")]
-    [Authorize]
     public async Task<IActionResult> GetPorId(long unidadeId)
     {
         var lista = await _iunidadeService.ListarPorId(unidadeId);
@@ -54,7 +51,6 @@ public class UnidadeController : ControllerBase
     }
 
     [HttpPut("atualizar/{id}")]
-    [Authorize(Roles = "Treinador,Administrador")]
     public async Task<IActionResult> Atualizar(long id, [FromBody] UnidadeDto dto)
     {
         if (id != dto.Id)
@@ -74,7 +70,6 @@ public class UnidadeController : ControllerBase
     }
 
     [HttpDelete("{id:long}")]
-    [Authorize(Roles = "Treinador,Administrador")]
     public async Task<IActionResult> Delete(long id)
     {
         var resultado = await _iunidadeService.RemoverAsync(id);

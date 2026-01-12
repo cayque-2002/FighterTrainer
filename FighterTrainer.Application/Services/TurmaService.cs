@@ -83,7 +83,8 @@ namespace FighterTrainer.Application.Services
                 TreinadorResponsavelId = t.TreinadorResponsavelId,
                 DataCriacao = t.DataCriacao,
                 Ativo = t.Ativo,
-                LimiteAlunos = t.LimiteAlunos
+                LimiteAlunos = t.LimiteAlunos,
+                ModalidadeId = t.ModalidadeId
 
             }).ToList();
         }

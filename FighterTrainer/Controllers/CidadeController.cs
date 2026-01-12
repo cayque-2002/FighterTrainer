@@ -1,5 +1,6 @@
 ﻿using FighterTrainer.Application.Interfaces;
 using FighterTrainer.Application.Services;
+using FighterTrainer.Application.Services.Auth;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -15,7 +16,7 @@ public class CidadeController : ControllerBase
     }
 
     [HttpGet]
-    [Authorize(Roles = "Treinador,Administrador")]
+    //[Authorize]
     public async Task<IActionResult> Get()
     {
         var lista = await _cidadeService.ListarTodasAsync();
@@ -23,7 +24,7 @@ public class CidadeController : ControllerBase
     }
 
     [HttpGet("{cidadeId}")]
-    [Authorize(Roles = "Treinador,Administrador")]
+    //[Authorize]
     public async Task<IActionResult> GetPorId(long cidadeId)
     {
         var lista = await _cidadeService.ListarPorId(cidadeId);

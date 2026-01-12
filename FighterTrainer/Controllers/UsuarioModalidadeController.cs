@@ -15,7 +15,6 @@ public class UsuarioModalidadeController : ControllerBase
     }
 
     [HttpPost]
-    [Authorize(Roles = "Treinador,Administrador")]
     public async Task<IActionResult> Post([FromBody] UsuarioModalidadeDto dto)
     {
         await _service.AdicionarAsync(dto);
@@ -23,7 +22,6 @@ public class UsuarioModalidadeController : ControllerBase
     }
 
     [HttpGet("usuario/{usuarioId}")]
-    [Authorize]
     public async Task<IActionResult> Get(long usuarioId)
     {
         var lista = await _service.ListarPorUsuario(usuarioId);
@@ -31,7 +29,6 @@ public class UsuarioModalidadeController : ControllerBase
     }
 
     [HttpGet("{id}")]
-    [Authorize]
     public async Task<IActionResult> GetPorId(long id)
     {
         var lista = await _service.ListarPorId(id);
@@ -39,7 +36,6 @@ public class UsuarioModalidadeController : ControllerBase
     }
 
     [HttpPut("inativar/{id}")]
-    [Authorize(Roles = "Treinador,Administrador")]
     public async Task<IActionResult> Inativar(long id)
     {
 
@@ -49,7 +45,6 @@ public class UsuarioModalidadeController : ControllerBase
     }
 
     [HttpPut("ativar/{id}")]
-    [Authorize(Roles = "Treinador,Administrador")]
     public async Task<IActionResult> Ativar(long id)
     {
 

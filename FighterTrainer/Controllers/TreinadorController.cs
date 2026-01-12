@@ -37,7 +37,6 @@ public class TreinadorController : ControllerBase
     //}
 
     [HttpGet]
-    [Authorize]
     public async Task<IActionResult> Get()
     {
         var usuarios = await _iTreinadorService.ListarTodasAsync();
@@ -45,7 +44,6 @@ public class TreinadorController : ControllerBase
     }
 
     [HttpGet("{id}")]
-    [Authorize]
     public async Task<IActionResult> GetPorId(long id)
     {
         var lista = await _iTreinadorService.ListarPorId(id);

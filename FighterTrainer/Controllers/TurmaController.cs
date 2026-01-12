@@ -30,7 +30,6 @@ public class TurmaController : ControllerBase
 
 
     [HttpPost]
-    [Authorize(Roles = "Treinador,Administrador")]
     public async Task<IActionResult> Post([FromBody] TurmaDto dto)
     {
         var nova = await _turmaService.CriarAsync(dto);
@@ -38,7 +37,6 @@ public class TurmaController : ControllerBase
     }
 
     [HttpGet]
-    [Authorize]
     public async Task<IActionResult> Get()
     {
         var usuarios = await _iturmaService.ListarTodasAsync();
@@ -46,7 +44,6 @@ public class TurmaController : ControllerBase
     }
 
     [HttpGet("{turmaId}")]
-    [Authorize]
     public async Task<IActionResult> GetPorId(long turmaId)
     {
         var lista = await _iturmaService.ListarPorId(turmaId);
@@ -54,7 +51,6 @@ public class TurmaController : ControllerBase
     }
 
     [HttpPut("atualizar/{id}")]
-    [Authorize(Roles = "Treinador,Administrador")]
     public async Task<IActionResult> Atualizar(long id, [FromBody] TurmaDto dto)
     {
         if (id != dto.Id)
@@ -74,7 +70,6 @@ public class TurmaController : ControllerBase
     }
 
     [HttpDelete("{id:long}")]
-    [Authorize(Roles = "Treinador,Administrador")]
     public async Task<IActionResult> Delete(long id)
     {
         var resultado = await _iturmaService.RemoverAsync(id);
@@ -85,7 +80,6 @@ public class TurmaController : ControllerBase
     }
 
     [HttpPut("Inativar/{id}")]
-    [Authorize(Roles = "Treinador,Administrador")]
     public async Task<IActionResult> Inativar(long id)
     {
         
