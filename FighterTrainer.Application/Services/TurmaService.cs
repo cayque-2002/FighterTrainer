@@ -27,7 +27,7 @@ namespace FighterTrainer.Application.Services
 
         public async Task<TurmaDto> CriarAsync(TurmaDto dto)
         {
-            var Turma = new Turma(dto.UnidadeId,dto.Descricao,dto.HoraInicioAula,dto.HoraFimAula,dto.TreinadorResponsavelId,dto.DataCriacao,dto.Ativo, dto.LimiteAlunos);
+            var Turma = new Turma(dto.UnidadeId,dto.Descricao,dto.HoraInicioAula,dto.HoraFimAula,dto.TreinadorResponsavelId, dto.ModalidadeId,dto.DataCriacao,dto.Ativo, dto.LimiteAlunos);
 
             var treinador = await _TreinadorService.ValidaTreinador(dto.TreinadorResponsavelId);
 

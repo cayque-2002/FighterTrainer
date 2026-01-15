@@ -76,7 +76,10 @@ namespace FighterTrainer.Application.Services
                 //validar existência cidade
                 var cidade = await _cidadeService.ValidaCidade(dto.CidadeId);
             }
-            
+            //unidade.DataCriacao = dto.DataCriacao;
+            unidade.Descricao = dto.Descricao; 
+            unidade.CidadeId = dto.CidadeId; 
+            unidade.Ativo = dto.Ativo;
 
             await _unidadeRepository.AtualizarAsync(unidade);
         }

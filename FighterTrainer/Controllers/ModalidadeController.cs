@@ -30,7 +30,7 @@ public class ModalidadeController : ControllerBase
 
     [HttpPost]
     public async Task<IActionResult> Post([FromBody] ModalidadeDto dto)
-    {
+     {
         var nova = await _modalidadeService.CriarAsync(dto);
         return Ok(nova);
     }

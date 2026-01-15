@@ -10,7 +10,7 @@ public class Modalidade
 {
     public long Id { get; set; }
     public string Descricao { get; set; }
-    public DateTime DataCadastro { get; set; } = DateTime.Now;
+    public DateTime DataCadastro { get; set; } = DateTime.UtcNow;
 
     //Identificacao da modalidade do atleta, exemplo Boxe, BJJ, Karate e etc.
 

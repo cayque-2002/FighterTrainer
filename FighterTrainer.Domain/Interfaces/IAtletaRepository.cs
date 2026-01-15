@@ -11,7 +11,7 @@ namespace FighterTrainer.Domain.Interfaces
     {
         Task AdicionarAsync(Atleta atleta);
         Task<List<Atleta>> ListarTodasAsync();
-        Task<Atleta?> ListarPorId(long atletaId);
+        Task<Atleta> ListarPorId(long atletaId);
         Task AtualizarAsync(Atleta atleta);
        
     }

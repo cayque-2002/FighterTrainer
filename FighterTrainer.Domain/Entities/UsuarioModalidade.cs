@@ -12,7 +12,7 @@ public class UsuarioModalidade
     public long UsuarioId { get; set; }
     public long ModalidadeId { get; set; }
     public long GraduacaoId { get; set; }
-    public DateTime DataInicio { get; set; } = DateTime.Now;
+    public DateTime DataInicio { get; set; } = DateTime.UtcNow;
     public bool Ativo { get; set; }
 
 

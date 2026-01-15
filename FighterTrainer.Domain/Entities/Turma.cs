@@ -42,13 +42,14 @@ public class Turma
     public Modalidade Modalidade { get; set; }
 
 
-    public Turma(long unidadeId, string descricao, TimeOnly horaInicioAula, TimeOnly horaFimAula, long treinadorResponsavelId, DateTime dataCriacao, bool ativo, int limiteAlunos)
+    public Turma(long unidadeId, string descricao, TimeOnly horaInicioAula, TimeOnly horaFimAula, long treinadorResponsavelId, long modalidadeId, DateTime dataCriacao, bool ativo, int limiteAlunos)
     {
         UnidadeId = unidadeId;
         Descricao = descricao;
         HoraInicioAula = horaInicioAula;
         HoraFimAula = horaFimAula;
         TreinadorResponsavelId = treinadorResponsavelId;
+        ModalidadeId = modalidadeId;
         DataCriacao = dataCriacao;
         Ativo = ativo;
         LimiteAlunos = limiteAlunos;

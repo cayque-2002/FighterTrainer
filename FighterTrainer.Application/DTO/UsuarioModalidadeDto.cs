@@ -12,7 +12,7 @@ public class UsuarioModalidadeDto
     public long GraduacaoId { get; set; }
 
     [Required(ErrorMessage = "É necessário informar uma data de início.")]
-    public DateTime DataInicio { get; set; } = DateTime.Now;
+    public DateTime DataInicio { get; set; } = DateTime.UtcNow;
 
     [Required(ErrorMessage = "É necessário informar a situação do usuário na modalidade.")] 
     public bool Ativo { get; set; }

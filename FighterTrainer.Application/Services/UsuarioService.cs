@@ -89,7 +89,7 @@ namespace FighterTrainer.Application.Services
         {
             //await _usuarioModalidadeService.ValidaVinculoModalidade(usuarioId, modalidadeId);
             
-            var modalidadesUsuario = new UsuarioModalidade(usuarioId, modalidadeId, graduacaoId, DateTime.Now, true);
+            var modalidadesUsuario = new UsuarioModalidade(usuarioId, modalidadeId, graduacaoId, DateTime.UtcNow, true);
             await _usuarioModalidadeRepository.AdicionarAsync(modalidadesUsuario);
 
         }

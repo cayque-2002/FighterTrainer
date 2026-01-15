@@ -16,6 +16,7 @@ namespace FighterTrainer.Application.Services
         private readonly IUsuarioModalidadeRepository _usuarioModalidadeRepository;
         private readonly IUsuarioRepository _usuarioRepository;
         private readonly IPasswordHasher _passwordHasher;
+        private readonly IAtletaService _atletaService;
         private readonly IAtletaRepository _atletaRepository;
 
 
@@ -23,10 +24,12 @@ namespace FighterTrainer.Application.Services
         public UsuarioModalidadeService(
         IUsuarioRepository usuarioRepository,
         IUsuarioModalidadeRepository usuarioModalidadeRepository,
+        IAtletaService atletaService,
         IPasswordHasher passwordHasher)
         {
             _usuarioRepository = usuarioRepository;
             _usuarioModalidadeRepository = usuarioModalidadeRepository;
+            _atletaService = atletaService;
             _passwordHasher = passwordHasher;
         }
 
@@ -88,8 +91,9 @@ namespace FighterTrainer.Application.Services
 
             var usuarioModalidade = await ValidaUsuarioModalidade(usuarioModalidadeId);
 
-            
-            var atleta = await _atletaRepository.ListarPorId(atletaId);
+            var atleta = await _atletaService.ListarPorId(atletaId);
+
+            //var atleta = await _atletaRepository.ListarPorId(atletaId);
 
             if (usuarioModalidade.UsuarioId != atleta.UsuarioId)
             {
