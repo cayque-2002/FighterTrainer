@@ -19,6 +19,7 @@ public class AppDbContext : DbContext
     public DbSet<Cidade> Cidade => Set<Cidade>();
     public DbSet<Unidade> Unidade => Set<Unidade>();
     public DbSet<Turma> Turma => Set<Turma>();
+    public DbSet<Presenca> Presencas => Set<Presenca>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -391,6 +392,39 @@ public class AppDbContext : DbContext
                 entity.Property(e => e.DataCadastro)
                       .HasColumnName("datacadastro");
 
+            });
+
+            // Presenca
+            modelBuilder.Entity<Presenca>(entity =>
+            {
+                entity.ToTable("presenca");
+
+                entity.HasKey(e => e.Id);
+
+                entity.Property(e => e.Id)
+                      .HasColumnName("id")
+                      .ValueGeneratedOnAdd();
+
+                entity.Property(e => e.TurmaId)
+                      .HasColumnName("turmaid");
+
+                entity.Property(e => e.AtletaId)
+                      .HasColumnName("atletaid");
+
+                entity.Property(e => e.DataHoraCadastro)
+                      .HasColumnName("datahoracadastro");
+
+                entity.HasOne(e => e.Turma)
+                      .WithMany()
+                      .HasForeignKey(e => e.TurmaId)
+                      .OnDelete(DeleteBehavior.Restrict);
+
+                entity.HasOne(e => e.Atleta)
+                      .WithMany()
+                      .HasForeignKey(e => e.AtletaId)
+                      .OnDelete(DeleteBehavior.Restrict);
+
+                entity.HasIndex(e => new { e.AtletaId, e.TurmaId }).IsUnique();
             });
 
     }
