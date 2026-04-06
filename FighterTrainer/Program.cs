@@ -91,6 +91,9 @@ builder.Services.AddScoped<FichaTreinoService>();
 builder.Services.AddScoped<ITreinadorRepository, TreinadorRepository>();
 builder.Services.AddScoped<ITreinadorService, TreinadorService>();
 builder.Services.AddScoped<TreinadorService>();
+builder.Services.AddScoped<IPresencaRepository, PresencaRepository>();
+builder.Services.AddScoped<IPresencaService, PresencaService>();
+builder.Services.AddScoped<PresencaService>();
 
 
 

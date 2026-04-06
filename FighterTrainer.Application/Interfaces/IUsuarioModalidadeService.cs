@@ -10,7 +10,7 @@ public interface IUsuarioModalidadeService
     Task InativarAsync(long id);
     Task AtivarAsync(long id);
     Task<UsuarioModalidade> ValidaUsuarioModalidade(long id);
-    Task<UsuarioModalidade> ValidaVinculoUsuarioAtletaModalidade(long usuarioId, long atletaId);
+    Task<UsuarioModalidade> ValidaVinculoUsuarioAtletaModalidade(long usuarioModalidadeId, long atletaId);
     Task ValidaVinculoModalidade(long usuarioId, long atletaId);
 
 }
