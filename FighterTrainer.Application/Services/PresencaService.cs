@@ -59,24 +59,7 @@ namespace FighterTrainer.Application.Services
              
             await _UsuarioModalidadeService.ValidaVinculoUsuarioAtletaModalidade(usuarioModalidade.Id, atleta.Id);
 
-            
-            //essa validação vou jogar na controller pra manter o padrão de todas as chamadas necessarias
-            //if(usuarioId is null || usuarioId == 0)
-            //{
-            //    await ValidaPresencaAlunoHorario(dto.TurmaId, TimeOnly.FromDateTime(DateTime.Now));
-            //}
-            //else if (usuarioId != null && usuarioId != 0)
-            //{
-            //    var usuarioCargo = await _UsuarioService.ListarPorId((long)usuarioId);
-
-            //    if(usuarioCargo.Tipo != TipoUsuario.Treinador || usuarioCargo.Tipo != TipoUsuario.Admin)
-            //    {
-            //        await ValidaPresencaAlunoHorario(dto.TurmaId, TimeOnly.FromDateTime(DateTime.Now));
-            //    }
-
-            //}
-
-            var presenca = new Presenca(dto.TurmaId, dto.AtletaId);
+            var presenca = new Presenca(dto.TurmaId, dto.AtletaId, dto.DataHoraCadastro);
             await _PresencaRepository.AdicionarAsync(presenca);
 
             return new PresencaDto
@@ -101,7 +84,8 @@ namespace FighterTrainer.Application.Services
             {
                 Id = presencaId,
                 AtletaId = presenca.AtletaId,
-                TurmaId = presenca.TurmaId
+                TurmaId = presenca.TurmaId,
+                DataHoraCadastro = presenca.DataHoraCadastro
             };
             
 
@@ -168,7 +152,7 @@ namespace FighterTrainer.Application.Services
 
            if (presenca == null)
            {
-               throw new BusinessRuleException("Ficha Treino não encontrada.");
+               throw new BusinessRuleException("Presença não encontrada.");
            }
 
            return presenca;
@@ -212,19 +196,6 @@ namespace FighterTrainer.Application.Services
 
             return true;
         }
-
-        //public async Task ValidaResponsabilidadeAtt(TipoUsuario tipoUsuario)
-        //{
-
-        //    var tiposPermitidos = new List<TipoUsuario> { TipoUsuario.Treinador, TipoUsuario.Admin };
-
-        //    if (!tiposPermitidos.Contains(tipoUsuario))
-        //    {
-        //        throw new BusinessRuleException("Apenas treinador ou administrador pode executar essa alteração.");
-        //    }
-
-        //    return;
-        //}
 
     }
 

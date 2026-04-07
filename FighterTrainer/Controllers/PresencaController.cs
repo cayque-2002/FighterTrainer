@@ -42,7 +42,7 @@ public class PresencaController : ControllerBase
 
         var isProfessor = usuario.Tipo == TipoUsuario.Treinador || usuario.Tipo == TipoUsuario.Admin;
 
-        var validaHorario = await _presencaService.ValidaPresencaAlunoHorario(dto.TurmaId, DateOnly.FromDateTime(DateTime.Now), isProfessor);
+        var validaHorario = await _presencaService.ValidaPresencaAlunoHorario(dto.TurmaId, DateOnly.FromDateTime(dto.DataHoraCadastro), isProfessor);
 
         if (validaHorario)
         {
@@ -64,9 +64,9 @@ public class PresencaController : ControllerBase
     }
 
     [HttpGet("{presencaId}")]
-    public async Task<IActionResult> GetPorId(long fichaTreinoId)
+    public async Task<IActionResult> GetPorId(long presencaId)
     {
-        var lista = await _iPresencaService.ListarPorId(fichaTreinoId);
+        var lista = await _iPresencaService.ListarPorId(presencaId);
         return Ok(lista);
     }
 

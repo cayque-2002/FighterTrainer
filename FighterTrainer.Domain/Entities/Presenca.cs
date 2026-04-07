@@ -15,14 +15,14 @@ public class Presenca
     public long AtletaId { get; set; }
     public Atleta Atleta { get; set; }
 
-    public DateTime DataHoraCadastro { get; set; } = DateTime.UtcNow;
+    public DateTime DataHoraCadastro { get; set; }
 
     protected Presenca() { }
 
-    public Presenca(long turmaId, long atletaId)
+    public Presenca(long turmaId, long atletaId, DateTime? dataHoraCadastro)
     {
         TurmaId = turmaId;
         AtletaId = atletaId;
-        DataHoraCadastro = DateTime.UtcNow;
+        DataHoraCadastro = dataHoraCadastro ?? DateTime.UtcNow;
     }
 }
